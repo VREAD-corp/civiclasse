@@ -1,0 +1,17 @@
+{
+  "name": "civiclasse",
+  "version": "0.1.0",
+  "description": "Civiclasse: préparation à l'examen civique pour les formateurs (examens blancs imprimables, corrigés sourcés, fiches de progression, entretien scripté). Version bêta.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/unit/*.test.mjs",
+    "serve": "node scripts/serve.mjs",
+    "e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0"
+  }
+}

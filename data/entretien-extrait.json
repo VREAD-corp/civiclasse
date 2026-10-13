@@ -1,0 +1,68 @@
+{
+ "title": "Mode entretien scripté",
+ "intro": "Il n’existe pas de liste officielle des questions de l’entretien d’assimilation. Les questions ci-dessous sont des questions d’entraînement rédigées par Civiclasse. Chacune renvoie à un passage de la Charte des droits et devoirs du citoyen français, que le candidat signe à la fin de l’entretien.",
+ "purpose": [
+  {
+   "text": "L’entretien a pour but de vérifier votre assimilation à la communauté française, notamment votre adhésion aux principes et aux valeurs essentiels de la République. La charte des droits et devoirs du citoyen français indique ces principes et ces valeurs.",
+   "source": "service-public.gouv.fr, fiche F2213 (naturalisation par décret)",
+   "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2213"
+  },
+  {
+   "text": "Cet entretien sera l’occasion d’échanger sur votre connaissance des droits et devoirs du citoyen. L’entretien sera également l’occasion d’apprécier votre adhésion à ces principes et valeurs, qui s’exprime par leur respect et leur mise en œuvre dans la vie quotidienne, au sein de la famille ou de la société.",
+   "source": "Livret du citoyen, édition mai 2026, p. 3 (ministère de l’Intérieur)",
+   "url": "https://www.immigration.interieur.gouv.fr/sites/dgef/files/medias/documents/2026-07/LIVRET-DU-CITOYEN-2026.pdf"
+  }
+ ],
+ "charteSource": {
+  "label": "Charte des droits et devoirs du citoyen français (décret n° 2012-127 du 30 janvier 2012), reproduite dans le Livret du citoyen, édition mai 2026, p. 79-80",
+  "url": "https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000025263486"
+ },
+ "cards": [
+  {
+   "id": "symboles",
+   "theme": "Principes, valeurs et symboles",
+   "public": true,
+   "question": "Pouvez-vous me citer des symboles de la République française ?",
+   "relance": "Que représente Marianne ? Quelle est la langue de la République ?",
+   "charte": "Il respecte les symboles républicains. L’emblème national est le drapeau tricolore, bleu, blanc, rouge. L’hymne national est La Marseillaise. La devise de la République est « Liberté, Egalité, Fraternité ». La fête nationale est le 14 juillet. « Marianne » est la représentation symbolique de la République. La langue de la République est le français.",
+   "points": [
+    "le drapeau tricolore, bleu, blanc, rouge",
+    "l’hymne national : La Marseillaise",
+    "la devise « Liberté, Égalité, Fraternité »",
+    "la fête nationale : le 14 juillet",
+    "Marianne, représentation symbolique de la République",
+    "le français, langue de la République"
+   ]
+  },
+  {
+   "id": "laicite",
+   "theme": "Principes, valeurs et symboles",
+   "public": true,
+   "question": "Qu’est-ce que la laïcité, pour vous ?",
+   "relance": "L’État finance-t-il une religion ? Peut-on changer de religion ?",
+   "charte": "Laïque : la République assure la liberté de conscience. Elle respecte toutes les croyances. Chacun est libre de croire, de ne pas croire, de changer de religion. La République garantit le libre exercice des cultes mais n’en reconnaît, n’en salarie ni n’en subventionne aucun. L’Etat et les religions sont séparés.",
+   "points": [
+    "la liberté de conscience",
+    "le respect de toutes les croyances",
+    "libre de croire, de ne pas croire, de changer de religion",
+    "le libre exercice des cultes est garanti",
+    "aucun culte n’est reconnu, salarié ni subventionné",
+    "l’État et les religions sont séparés"
+   ]
+  },
+  {
+   "id": "vote",
+   "theme": "Liberté",
+   "public": true,
+   "question": "Une fois Français, qu’est-ce que le droit de vote changera pour vous ?",
+   "relance": "Voter, est-ce seulement un droit ?",
+   "charte": "Tout citoyen français âgé de dix-huit ans et jouissant de ses droits civiques est électeur. Chaque citoyen ayant la qualité d’électeur peut faire acte de candidature dans les conditions prévues par la loi. Voter est un droit, c’est aussi un devoir civique.",
+   "points": [
+    "électeur à 18 ans, avec ses droits civiques",
+    "possibilité d’être candidat",
+    "voter est un droit",
+    "voter est aussi un devoir civique"
+   ]
+  }
+ ]
+}
