@@ -58,11 +58,47 @@ test('trainer area: wrong code refused, fixture code opens it; exam of 40 questi
   await expect(page.locator('#int-card .card-q')).not.toBeEmpty();
   await page.click('#t-bank');
   await expect(page.locator('#bank-count')).toContainText('40 question(s) sur 40');
+  await page.click('#t-b2');
+  await expect(page.locator('#b2-set option')).toHaveCount(2);
+  await expect(page.locator('#b2-out .sheet-b2 ol.b2-q > li')).toHaveCount(10);
+  await expect(page.locator('#b2-out .sheet-b2key tbody tr')).toHaveCount(10);
+  await page.selectOption('#b2-set', '1');
+  await expect(page.locator('#b2-out h2').first()).toContainText('Série 2');
+});
+
+test('trainer area, Lecture B2 only: civic tabs hidden, B2 tab open', async ({ page }) => {
+  const fx = JSON.parse(FIXTURE);
+  fx.licence.modules = ['lecture-b2'];
+  fx.licence.name = 'Module Lecture B2 seul';
+  fx.content = { version: 'none', bank: [], interview: { cards: [] } };
+  await page.route(/script\.google\.com\/macros\/s\/.*\/exec/, (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(fx) }));
+  await page.goto('espace-formateur/' + NOTRACK);
+  await page.fill('input[name=code]', 'CIVI-TEST-TEST-TEST-TEST');
+  await page.click('#code-button');
+  await expect(page.locator('#licence-line')).toContainText('Lecture B2 : 2 séries sur 12');
+  await expect(page.locator('#t-exam')).toBeHidden();
+  await expect(page.locator('#t-b2')).toBeVisible();
+  await expect(page.locator('#p-b2')).toBeVisible();
+  await expect(page.locator('#b2-out .sheet-b2 ol.b2-q > li')).toHaveCount(10);
+});
+
+test('trainer area, civic licence without the module: no B2 tab', async ({ page }) => {
+  const fx = JSON.parse(FIXTURE);
+  fx.licence.modules = ['civique'];
+  fx.b2 = null;
+  await page.route(/script\.google\.com\/macros\/s\/.*\/exec/, (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(fx) }));
+  await page.goto('espace-formateur/' + NOTRACK);
+  await page.fill('input[name=code]', 'CIVI-TEST-TEST-TEST-TEST');
+  await page.click('#code-button');
+  await expect(page.locator('#licence-line')).toContainText('École FLE Test');
+  await expect(page.locator('#t-b2')).toBeHidden();
+  await expect(page.locator('#t-exam')).toBeVisible();
 });
 
 test('order page: radios, SIREN check, terms link, beta notice (no payment made)', async ({ page }) => {
   await page.goto('commander/' + NOTRACK);
-  await expect(page.locator('input[name=product]')).toHaveCount(2);
+  await expect(page.locator('input[name=product]')).toHaveCount(5);
+  await expect(page.locator('#regle-b2')).toContainText('Seul un diplôme ou une attestation officiels prouvent ce niveau');
   await expect(page.locator('#terms-link')).toHaveAttribute('href', /cgv-pro\/$/);
   await expect(page.locator('.callout-warn')).toContainText('version bêta');
   await page.fill('input[name=siren]', '123456789');
@@ -75,4 +111,29 @@ test('A/B: ?prix=p129 shows 129 € on the offer and selects the 129 € product
   await page.goto('commander/?prix=p129&octave_notrack=1');
   await expect(page.locator('input[name=product]').first()).toHaveAttribute('value', 'civiclasse-pilote-129');
   await expect(page.locator('[data-price-for="civiclasse-pilote-129"]')).toHaveText('129 € net');
+});
+
+test('A/B Lecture B2: ?b2=b99 gives +99 € and the -b2-99 products; ?module preselects; both arms combine', async ({ page }) => {
+  await page.goto('lecture-b2/?b2=b99&octave_notrack=1');
+  await expect(page.locator('[data-prix-b2]').first()).toHaveText('+99 €');
+  await page.goto('commander/?prix=p129&b2=b99&module=lecture-b2&octave_notrack=1');
+  const values = await page.locator('input[name=product]').evaluateAll((l) => l.map((e) => e.value));
+  expect(values).toEqual(['civiclasse-pilote-129', 'civiclasse-pilote-129-b2-99', 'civiclasse-annuelle-329', 'civiclasse-annuelle-329-b2-99', 'civiclasse-lecture-b2-249']);
+  await expect(page.locator('input[name=product]:checked')).toHaveAttribute('value', 'civiclasse-pilote-129-b2-99');
+  await expect(page.locator('[data-price-for="civiclasse-pilote-129-b2-99"]')).toHaveText('228 € net');
+  await expect(page.locator('#product-price')).toContainText('228,00 €');
+  await page.goto('commander/?b2=a69&module=lecture-b2-seul&octave_notrack=1');
+  await expect(page.locator('input[name=product]:checked')).toHaveAttribute('value', 'civiclasse-lecture-b2-249');
+  await expect(page.locator('[data-price-for="civiclasse-pilote-99-b2-69"]')).toHaveText('168 € net');
+});
+
+test('Lecture B2 pages: module page and free sample, 375 px without horizontal scroll', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  for (const p of ['lecture-b2/', 'lecture-b2/exemple/', 'commander/', 'licence/']) {
+    await page.goto(p + NOTRACK);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth), p).toBeLessThanOrEqual(375);
+  }
+  await page.goto('lecture-b2/exemple/' + NOTRACK);
+  await expect(page.locator('.sheet-b2 ol.b2-q > li')).toHaveCount(10);
+  await expect(page.locator('#regle-b2')).toContainText('1er janvier 2026');
 });

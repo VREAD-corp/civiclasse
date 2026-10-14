@@ -1,6 +1,7 @@
 // Civiclasse trainer area: access code -> licence + content (Apps Script action `access`), then mock exams, answer
 // keys, quick marking, progress sheets, scripted interview cards and the question bank. Learner names and marks stay in
 // this browser (localStorage); the code stays in this tab (sessionStorage).
+import { learnerSheet, keySheet } from './lecture-b2.mjs';
 import { buildExam, parseAnswers, score, PLAN, THEME_LABEL, MENTIONS, LETTERS, EXAM_SIZE, PASS_MARK, DURATION_MIN } from './examen.mjs';
 
 const CFG = window.CIVI_CFG || {};
@@ -12,6 +13,7 @@ const store = {
   del: (s, k) => { try { window[s].removeItem(k); } catch { /* ignore */ } },
 };
 let content = null;
+let b2 = null;
 let licence = null;
 let lastExam = null;
 let lastGroup = '';
@@ -30,6 +32,7 @@ async function open(code) {
     if (!j.ok) throw new Error(j.message || 'Code refusé.');
     content = j.content;
     licence = j.licence;
+    b2 = j.b2 && Array.isArray(j.b2.sets) && j.b2.sets.length ? j.b2 : null;
     store.set('sessionStorage', 'civiclasse:code', code);
     start();
   } catch (e) {
@@ -45,23 +48,57 @@ async function open(code) {
 function start() {
   $('login').hidden = true;
   $('space').hidden = false;
-  const d = licence.deliveryDate.split('-').reverse().join('/');
-  $('licence-line').innerHTML = `<strong>${esc(licence.company)}</strong> · ${esc(licence.name)} · version bêta (${content.bank.length} questions vérifiées, ${content.interview.cards.length} cartes d’entretien) · version relue au plus tard le ${esc(d)}. <button type="button" class="btn secondary" id="logout">Fermer</button>`;
+  // Modules of the licence (server: ['civique'], ['civique','lecture-b2'] or ['lecture-b2']; older answers: none = civic).
+  const mods = Array.isArray(licence.modules) && licence.modules.length ? licence.modules : ['civique'];
+  const civic = mods.includes('civique') && content && Array.isArray(content.bank) && content.bank.length > 0;
+  const d = String(licence.deliveryDate || '').split('-').reverse().join('/');
+  const what = [];
+  if (civic) what.push(`${content.bank.length} questions vérifiées, ${content.interview.cards.length} cartes d’entretien`);
+  if (b2) what.push(`Lecture B2 : ${b2.sets.length} séries sur ${b2.setsPlanned || 12}`);
+  $('licence-line').innerHTML = `<strong>${esc(licence.company)}</strong> · ${esc(licence.name)} · version bêta (${esc(what.join(' ; ') || 'aucun contenu')}) · version relue au plus tard le ${esc(d)}. <button type="button" class="btn secondary" id="logout">Fermer</button>`;
   $('logout').addEventListener('click', () => { store.del('sessionStorage', 'civiclasse:code'); location.reload(); });
-  $('exam-form').elements.seed.value = String(1 + Math.floor(Math.random() * 99999));
-  renderProgress();
-  renderInterview();
-  renderBank('');
+  if (civic) {
+    $('exam-form').elements.seed.value = String(1 + Math.floor(Math.random() * 99999));
+    renderProgress();
+    renderInterview();
+    renderBank('');
+  } else {
+    for (const id of ['exam', 'corr', 'int', 'bank']) { $('t-' + id).hidden = true; $('p-' + id).hidden = true; }
+  }
+  if (b2) {
+    $('t-b2').hidden = false;
+    renderB2();
+    if (!civic) selectTab('t-b2');
+  }
   if (window.octaveCro && window.octaveCro.goal) window.octaveCro.goal('signup');
+}
+
+/* ------------------------------------------------------------------ Lecture B2 */
+
+function renderB2() {
+  const sel = $('b2-set');
+  sel.innerHTML = b2.sets.map((x, i) => `<option value="${i}">${x.order}. ${esc(x.title)} – ${esc(x.author)}</option>`).join('');
+  const draw = () => {
+    const set = b2.sets[Number(sel.value) || 0];
+    const group = $('b2-form').elements.group.value.trim();
+    $('b2-out').innerHTML = learnerSheet(set, { group }) + keySheet(set);
+    $('b2-meta').textContent = `Série ${set.order} : ${set.words} mots, ${set.questions.length} questions. Version ${b2.version}. ${b2.sets.length} séries disponibles sur ${b2.setsPlanned || 12} prévues (version relue au plus tard le ${String(b2.deliveryDate || licence.deliveryDate).split('-').reverse().join('/')}).`;
+  };
+  sel.addEventListener('change', draw);
+  $('b2-form').elements.group.addEventListener('input', draw);
+  $('b2-form').addEventListener('submit', (e) => e.preventDefault());
+  draw();
+}
+
+function selectTab(id) {
+  document.querySelectorAll('[role=tab]').forEach((x) => { x.setAttribute('aria-selected', String(x.id === id)); $(x.getAttribute('aria-controls')).hidden = x.id !== id; });
 }
 
 /* ------------------------------------------------------------------ tabs + print */
 
 function tabs() {
   const list = document.querySelectorAll('[role=tab]');
-  list.forEach((t) => t.addEventListener('click', () => {
-    list.forEach((x) => { x.setAttribute('aria-selected', String(x === t)); $(x.getAttribute('aria-controls')).hidden = x !== t; });
-  }));
+  list.forEach((t) => t.addEventListener('click', () => selectTab(t.id)));
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-print]');
     if (!b) return;

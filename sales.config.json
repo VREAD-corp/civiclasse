@@ -7,9 +7,16 @@
   "products": {
     "civiclasse-pilote-99": 9900,
     "civiclasse-pilote-129": 12900,
-    "civiclasse-annuelle-329": 32900
+    "civiclasse-annuelle-329": 32900,
+    "civiclasse-pilote-99-b2-69": 16800,
+    "civiclasse-pilote-99-b2-99": 19800,
+    "civiclasse-pilote-129-b2-69": 19800,
+    "civiclasse-pilote-129-b2-99": 22800,
+    "civiclasse-annuelle-329-b2-69": 39800,
+    "civiclasse-annuelle-329-b2-99": 42800,
+    "civiclasse-lecture-b2-249": 24900
   },
-  "termsVersion": "cgv-pro-civiclasse-2026-10-13",
+  "termsVersion": "cgv-pro-civiclasse-2026-10-14",
   "deliveryDate": "2027-01-15",
   "deliveryDateIsPlaceholder": true,
   "endpoint": "https://script.google.com/macros/s/AKfycbzD1IRL8QALluKGZxgGiORFP6-DkC_qFJYR9aOxZiimxa06nbCqpzUI-9iLblp6V2VY/exec",

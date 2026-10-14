@@ -1,0 +1,117 @@
+{
+ "version": "b2-2026-10-14-bfe2ab3c",
+ "setsPlanned": 12,
+ "deliveryDate": "2027-01-15",
+ "sets": [
+  {
+   "id": "renan-nation",
+   "order": 1,
+   "free": true,
+   "title": "Qu’est-ce qu’une nation ?",
+   "author": "Ernest Renan",
+   "authorDates": "1823-1892",
+   "year": 1882,
+   "genre": "Conférence (extrait)",
+   "theme": "Nation, mémoire et volonté de vivre ensemble",
+   "words": 548,
+   "questions": 10,
+   "status": "Domaine public : Renan est mort en 1892 (France : plus de 70 ans après sa mort ; règle stricte « auteur mort avant 1925 » respectée) ; texte publié en 1882 (domaine public aux États-Unis). Texte original en français, sans traduction.",
+   "source": {
+    "title": "Qu’est-ce qu’une nation ?",
+    "url": "https://fr.wikisource.org/wiki/Qu%E2%80%99est-ce_qu%E2%80%99une_nation_%3F"
+   }
+  },
+  {
+   "id": "hugo-peine-de-mort",
+   "order": 2,
+   "free": false,
+   "title": "La peine de mort",
+   "author": "Victor Hugo",
+   "authorDates": "1802-1885",
+   "year": 1848,
+   "genre": "Discours à l’Assemblée (texte complet)",
+   "theme": "Justice, dignité humaine et abolition de la peine de mort",
+   "words": 483,
+   "questions": 10,
+   "status": "Domaine public : Hugo est mort en 1885 (France ; règle stricte « auteur mort avant 1925 » respectée) ; discours publié au XIXe siècle (domaine public aux États-Unis). Texte original en français.",
+   "source": {
+    "title": "Actes et Paroles volume1 La peine de mort",
+    "url": "https://fr.wikisource.org/wiki/Actes_et_Paroles_volume1_La_peine_de_mort"
+   }
+  },
+  {
+   "id": "jaures-courage",
+   "order": 3,
+   "free": false,
+   "title": "Discours à la jeunesse : le courage",
+   "author": "Jean Jaurès",
+   "authorDates": "1859-1914",
+   "year": 1903,
+   "genre": "Discours (extrait)",
+   "theme": "Paix, travail et engagement du citoyen",
+   "words": 495,
+   "questions": 10,
+   "status": "Domaine public : Jaurès est mort en 1914 (France ; règle stricte « auteur mort avant 1925 » respectée) ; discours prononcé et publié en 1903 (domaine public aux États-Unis). Texte original en français. Transcription Wikisource d’une réédition de 1975 : seul le texte de Jaurès est repris, sans les notes de cette édition.",
+   "source": {
+    "title": "Discours à la jeunesse (1903)",
+    "url": "https://fr.wikisource.org/wiki/Discours_%C3%A0_la_jeunesse_%281903%29"
+   }
+  },
+  {
+   "id": "ferry-instituteurs",
+   "order": 4,
+   "free": false,
+   "title": "Lettre aux instituteurs",
+   "author": "Jules Ferry",
+   "authorDates": "1832-1893",
+   "year": 1883,
+   "genre": "Lettre officielle (extraits)",
+   "theme": "École publique, laïcité et éducation morale et civique",
+   "words": 556,
+   "questions": 10,
+   "status": "Domaine public : Ferry est mort en 1893 (France ; règle stricte « auteur mort avant 1925 » respectée) ; lettre publiée en 1883 et reprise dans « Discours et opinions de Jules Ferry » (1896) (domaine public aux États-Unis). Texte original en français.",
+   "source": {
+    "title": "Jules Ferry - Lettre aux instituteurs, 1883",
+    "url": "https://fr.wikisource.org/wiki/Jules_Ferry_-_Lettre_aux_instituteurs%2C_1883"
+   }
+  },
+  {
+   "id": "laicite-ddhc-1905",
+   "order": 5,
+   "free": false,
+   "title": "Libertés et laïcité : la Déclaration de 1789 et la loi de 1905",
+   "author": "Textes officiels",
+   "authorDates": "",
+   "year": 1905,
+   "genre": "Textes juridiques (extraits)",
+   "theme": "Droits fondamentaux, liberté de conscience, séparation des Églises et de l’État",
+   "words": 579,
+   "questions": 10,
+   "status": "Textes officiels : les actes officiels ne sont pas protégés par le droit d’auteur (article L. 122-5 et jurisprudence ; reproduction libre). Déclaration de 1789 : texte du site du Conseil constitutionnel. Loi de 1905 : version initiale transcrite sur Wikisource, à comparer avec Légifrance.",
+   "source": {
+    "title": "Déclaration des droits de l’homme et du citoyen de 1789 ; loi du 9 décembre 1905",
+    "url": "https://www.conseil-constitutionnel.fr/le-bloc-de-constitutionnalite/declaration-des-droits-de-l-homme-et-du-citoyen-de-1789",
+    "url2": "https://fr.wikisource.org/wiki/Loi_du_9_d%C3%A9cembre_1905_concernant_la_s%C3%A9paration_des_%C3%89glises_et_de_l%E2%80%99%C3%89tat_%28Version_initiale%29",
+    "legifrance": "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000508749"
+   }
+  },
+  {
+   "id": "sp-niveau-francais",
+   "order": 6,
+   "free": false,
+   "title": "Justifier de son niveau en français (fiche officielle)",
+   "author": "Service-Public.fr (DILA)",
+   "authorDates": "",
+   "year": 2026,
+   "genre": "Texte administratif (extrait)",
+   "theme": "Démarches de naturalisation : la preuve du niveau de langue",
+   "words": 508,
+   "questions": 10,
+   "status": "Licence etalab-2.0 (mention du site : « Sauf mention contraire, tous les contenus de ce site sont sous licence etalab-2.0 »). Source : Service Public / Direction de l’information légale et administrative (Premier ministre), fiche F11926, version vérifiée le 1er janvier 2026, extraite le 14 octobre 2026.",
+   "source": {
+    "title": "Nationalité française : comment justifier de son niveau en français ?",
+    "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F11926"
+   }
+  }
+ ]
+}

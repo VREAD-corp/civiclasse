@@ -131,6 +131,25 @@ legend { font-weight: 700; padding: 0 4px; }
 footer.site { border-top: 1px solid var(--line); background: #fff; padding: 24px 0 32px; font-size: 0.9rem; color: var(--muted); }
 footer.site ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
 
+/* Lecture B2 sets (sample page + trainer area) */
+.b2-context { background: #f6f7f9; border-radius: 8px; padding: 10px 14px; margin: 0 0 12px; font-size: 0.95rem; }
+.b2-text { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; margin: 0 0 12px; }
+.b2-p { position: relative; padding-left: 2.4em; text-align: justify; hyphens: auto; }
+.b2-n { position: absolute; left: 0; width: 1.8em; text-align: right; font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; top: 0.2em; }
+.b2-item { padding-left: 3.4em; }
+.b2-h { font-size: 1rem; margin: 1em 0 0.5em; }
+.b2-sub { font-weight: 700; margin: 0.8em 0 0.3em; }
+.b2-vocab { border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; margin: 0 0 12px; }
+.b2-vocab h3 { margin-top: 0.3em; }
+.b2-vocab dl { display: grid; grid-template-columns: minmax(7em, max-content) 1fr; gap: 2px 12px; margin: 0; font-size: 0.95rem; }
+.b2-vocab dt { font-weight: 700; }
+.b2-vocab dd { margin: 0; }
+ol.b2-q > li { break-inside: avoid; margin-bottom: 10px; }
+ol.b2-q ul { list-style: none; padding-left: 0; margin: 4px 0 0; }
+.b2-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 4px 12px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.95rem; }
+.product-choice label.addon { margin-left: 1.4em; }
+@media (max-width: 600px) { .b2-vocab dl { grid-template-columns: 1fr; } .b2-p { text-align: left; } .product-choice label.addon { margin-left: 0.6em; } }
+
 @media (max-width: 600px) {
   body { font-size: 16px; }
   h1 { font-size: 1.6rem; }
@@ -145,7 +164,9 @@ footer.site ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; g
   .wrap { max-width: none; padding: 0; }
   .sheet { border: 0; padding: 0; margin: 0; }
   .print-break { break-before: page; }
-  body.print-only-exam .sheet:not(.sheet-exam), body.print-only-key .sheet:not(.sheet-key), body.print-only-progress .sheet:not(.sheet-progress), body.print-only-cards .sheet:not(.sheet-cards) { display: none !important; }
+  body.print-only-exam .sheet:not(.sheet-exam), body.print-only-key .sheet:not(.sheet-key), body.print-only-progress .sheet:not(.sheet-progress), body.print-only-cards .sheet:not(.sheet-cards), body.print-only-b2 .sheet:not(.sheet-b2), body.print-only-b2key .sheet:not(.sheet-b2key) { display: none !important; }
+  body.print-only-b2 main h1, body.print-only-b2 main > .wrap > p, body.print-only-b2key main h1, body.print-only-b2key main > .wrap > p, body.print-mode #p-b2 .card.controls { display: none !important; }
+  .sheet-b2key { break-before: page; }
   body.print-mode main h1, body.print-mode #login, body.print-mode #licence-line, body.print-mode #space > .callout, body.print-mode #int-card, body.print-mode #int-summary { display: none !important; }
   body.print-only-cards .sheet-cards.screen-hidden { display: block !important; }
   .panel[hidden] { display: none !important; }

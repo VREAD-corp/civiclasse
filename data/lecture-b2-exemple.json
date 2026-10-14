@@ -1,0 +1,220 @@
+{
+ "version": "b2-2026-10-14-bfe2ab3c",
+ "id": "renan-nation",
+ "order": 1,
+ "free": true,
+ "title": "Qu’est-ce qu’une nation ?",
+ "author": "Ernest Renan",
+ "authorDates": "1823-1892",
+ "year": 1882,
+ "genre": "Conférence (extrait)",
+ "theme": "Nation, mémoire et volonté de vivre ensemble",
+ "context": "Ernest Renan, historien et philosophe, prononce cette conférence à la Sorbonne le 11 mars 1882. Dans les parties précédentes, il a examiné les critères qui, selon lui, ne suffisent pas à faire une nation. Dans cet extrait, il propose sa propre définition.",
+ "omissions": "Extrait de la partie III : un paragraphe de transition de la fin de la partie II, puis les trois premiers paragraphes de la partie III.",
+ "status": "Domaine public : Renan est mort en 1892 (France : plus de 70 ans après sa mort ; règle stricte « auteur mort avant 1925 » respectée) ; texte publié en 1882 (domaine public aux États-Unis). Texte original en français, sans traduction.",
+ "source": {
+  "title": "Qu’est-ce qu’une nation ?",
+  "revid": 10735193,
+  "url": "https://fr.wikisource.org/wiki/Qu%E2%80%99est-ce_qu%E2%80%99une_nation_%3F",
+  "permalink": "https://fr.wikisource.org/w/index.php?oldid=10735193"
+ },
+ "words": 548,
+ "paragraphs": [
+  {
+   "kind": "p",
+   "text": "Nous venons de voir ce qui ne suffit pas à créer un tel principe spirituel : la race, la langue, les intérêts, l’affinité religieuse, la géographie, les nécessités militaires. Que faut-il donc en plus ? Par suite de ce qui a été dit antérieurement, je n’aurai pas désormais à retenir bien longtemps votre attention.",
+   "n": 1
+  },
+  {
+   "kind": "p",
+   "text": "Une nation est une âme, un principe spirituel. Deux choses qui, à vrai dire, n’en font qu’une, constituent cette âme, ce principe spirituel. L’une est dans le passé, l’autre dans le présent. L’une est la possession en commun d’un riche legs de souvenirs ; l’autre est le consentement actuel, le désir de vivre ensemble, la volonté de continuer à faire valoir l’héritage qu’on a reçu indivis. L’homme, messieurs, ne s’improvise pas. La nation, comme l’individu, est l’aboutissant d’un long passé d’efforts, de sacrifices et de dévouements. Le culte des ancêtres est de tous le plus légitime ; les ancêtres nous ont faits ce que nous sommes. Un passé héroïque, des grands hommes, de la gloire (j’entends de la véritable), voilà le capital social sur lequel on assied une idée nationale. Avoir des gloires communes dans le passé, une volonté commune dans le présent ; avoir fait de grandes choses ensemble, vouloir en faire encore, voilà les conditions essentielles pour être un peuple. On aime en proportion des sacrifices qu’on a consentis, des maux qu’on a soufferts. On aime la maison qu’on a bâtie et qu’on transmet. Le chant spartiate : « Nous sommes ce que vous fûtes ; nous serons ce que vous êtes » est dans sa simplicité l’hymne abrégé de toute patrie.",
+   "n": 2
+  },
+  {
+   "kind": "p",
+   "text": "Dans le passé, un héritage de gloire et de regrets à partager, dans l’avenir un même programme à réaliser ; avoir souffert, joui, espéré ensemble, voilà ce qui vaut mieux que des douanes communes et des frontières conformes aux idées stratégiques ; voilà ce que l’on comprend malgré les diversités de race et de langue. Je disais tout à l’heure : « avoir souffert ensemble » ; oui, la souffrance en commun unit plus que la joie. En fait de souvenirs nationaux, les deuils valent mieux que les triomphes ; car ils imposent des devoirs ; ils commandent l’effort en commun.",
+   "n": 3
+  },
+  {
+   "kind": "p",
+   "text": "Une nation est donc une grande solidarité, constituée par le sentiment des sacrifices qu’on a faits et de ceux qu’on est disposé à faire encore. Elle suppose un passé ; elle se résume pourtant dans le présent par un fait tangible : le consentement, le désir clairement exprimé de continuer la vie commune. L’existence d’une nation est (pardonnez-moi cette métaphore) un plébiscite de tous les jours, comme l’existence de l’individu est une affirmation perpétuelle de vie. Oh ! je le sais, cela est moins métaphysique que le droit divin, moins brutal que le droit prétendu historique. Dans l’ordre d’idées que je vous soumets, une nation n’a pas plus qu’un roi le droit de dire à une province : « Tu m’appartiens, je te prends. » Une province, pour nous, ce sont ses habitants ; si quelqu’un en cette affaire a droit d’être consulté, c’est l’habitant. Une nation n’a jamais un véritable intérêt à s’annexer ou à retenir un pays malgré lui. Le vœu des nations est, en définitive, le seul critérium légitime, celui auquel il faut toujours en revenir.",
+   "n": 4
+  }
+ ],
+ "vocabulary": [
+  {
+   "term": "legs",
+   "def": "ce que l’on laisse à ceux qui viennent après soi ; ici, ce qu’une génération transmet à la suivante"
+  },
+  {
+   "term": "dévouement",
+   "def": "fait de se consacrer à une cause ou aux autres, parfois au prix d’un sacrifice"
+  },
+  {
+   "term": "asseoir (une idée)",
+   "def": "l’établir, la fonder solidement"
+  },
+  {
+   "term": "ancêtres",
+   "def": "les personnes dont on descend, les générations passées"
+  },
+  {
+   "term": "deuil",
+   "def": "douleur après une mort ; ici, épreuve vécue ensemble"
+  },
+  {
+   "term": "tangible",
+   "def": "concret, que l’on peut constater"
+  },
+  {
+   "term": "annexer",
+   "def": "rattacher un territoire à un autre État"
+  },
+  {
+   "term": "critérium",
+   "def": "forme ancienne de « critère » : ce qui permet de juger"
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "skill": "structure",
+   "q": "Dans le paragraphe 1, quel rôle joue la liste « la race, la langue, les intérêts, l’affinité religieuse, la géographie, les nécessités militaires » ?",
+   "options": [
+    "Elle annonce le plan de la suite de la conférence.",
+    "Elle résume les causes des guerres de son époque.",
+    "Elle énumère les conditions nécessaires à toute nation.",
+    "Elle rappelle les critères que l’auteur a déjà écartés."
+   ],
+   "answer": 3,
+   "p": 1,
+   "quote": "Nous venons de voir ce qui ne suffit pas à créer un tel principe spirituel"
+  },
+  {
+   "n": 2,
+   "skill": "compréhension littérale",
+   "q": "Selon Renan, où se situent les deux éléments qui forment « l’âme » d’une nation ?",
+   "options": [
+    "L’un dans le passé, l’autre dans le présent.",
+    "L’un dans le territoire, l’autre dans l’armée.",
+    "L’un dans la langue, l’autre dans la religion.",
+    "L’un dans la loi, l’autre dans l’économie."
+   ],
+   "answer": 0,
+   "p": 2,
+   "quote": "L’une est dans le passé, l’autre dans le présent."
+  },
+  {
+   "n": 3,
+   "skill": "vocabulaire en contexte",
+   "q": "« L’héritage qu’on a reçu indivis » (paragraphe 2) : l’héritage est « indivis » parce qu’il…",
+   "options": [
+    "a été divisé en parts égales.",
+    "a été reçu contre sa volonté.",
+    "appartient à tous en commun, sans avoir été partagé.",
+    "a été perdu en partie."
+   ],
+   "answer": 2,
+   "p": 2,
+   "quote": "la volonté de continuer à faire valoir l’héritage qu’on a reçu indivis"
+  },
+  {
+   "n": 4,
+   "skill": "inférence",
+   "q": "Que veut dire Renan par « L’homme, messieurs, ne s’improvise pas » ?",
+   "options": [
+    "Un orateur doit toujours préparer son discours.",
+    "Chacun doit choisir sa nation sans hésiter.",
+    "Les responsables politiques manquent d’expérience.",
+    "Une nation, comme une personne, est le produit d’une longue histoire."
+   ],
+   "answer": 3,
+   "p": 2,
+   "quote": "La nation, comme l’individu, est l’aboutissant d’un long passé d’efforts, de sacrifices et de dévouements."
+  },
+  {
+   "n": 5,
+   "skill": "intention de l’auteur",
+   "q": "Pourquoi Renan cite-t-il le chant spartiate « Nous sommes ce que vous fûtes ; nous serons ce que vous êtes » ?",
+   "options": [
+    "Pour présenter Sparte comme le modèle politique de la France.",
+    "Pour montrer que la poésie compte plus que les lois.",
+    "Pour critiquer le culte des ancêtres.",
+    "Pour condenser en une phrase le lien entre les générations d’une patrie."
+   ],
+   "answer": 3,
+   "p": 2,
+   "quote": "est dans sa simplicité l’hymne abrégé de toute patrie"
+  },
+  {
+   "n": 6,
+   "skill": "compréhension littérale",
+   "q": "D’après le paragraphe 3, qu’est-ce qui « vaut mieux que des douanes communes et des frontières conformes aux idées stratégiques » ?",
+   "options": [
+    "Signer des traités de commerce avantageux.",
+    "Avoir une armée commune.",
+    "Avoir souffert, joui et espéré ensemble.",
+    "Parler la même langue et pratiquer la même religion."
+   ],
+   "answer": 2,
+   "p": 3,
+   "quote": "avoir souffert, joui, espéré ensemble, voilà ce qui vaut mieux que des douanes communes"
+  },
+  {
+   "n": 7,
+   "skill": "inférence",
+   "q": "Pourquoi, selon Renan, « les deuils valent mieux que les triomphes » dans la mémoire d’une nation ?",
+   "options": [
+    "Parce que les victoires divisent toujours un peuple.",
+    "Parce qu’on les oublie plus facilement.",
+    "Parce qu’ils sont plus nombreux dans l’histoire.",
+    "Parce qu’ils imposent des devoirs et appellent un effort commun."
+   ],
+   "answer": 3,
+   "p": 3,
+   "quote": "car ils imposent des devoirs ; ils commandent l’effort en commun"
+  },
+  {
+   "n": 8,
+   "skill": "vocabulaire en contexte",
+   "q": "Renan écrit que l’existence d’une nation est « un plébiscite de tous les jours ». Il veut dire que la nation…",
+   "options": [
+    "dépend chaque jour de la décision d’un chef.",
+    "change de frontières chaque année.",
+    "repose sur l’accord, renouvelé chaque jour, de ceux qui veulent vivre ensemble.",
+    "organise un vote officiel chaque jour."
+   ],
+   "answer": 2,
+   "p": 4,
+   "quote": "le consentement, le désir clairement exprimé de continuer la vie commune"
+  },
+  {
+   "n": 9,
+   "skill": "compréhension littérale",
+   "q": "À quelles conceptions Renan compare-t-il sa définition, au paragraphe 4 ?",
+   "options": [
+    "Au droit divin et au droit prétendu historique.",
+    "Au droit de la guerre et au droit du commerce.",
+    "À la monarchie et à l’empire.",
+    "À la religion et à la science."
+   ],
+   "answer": 0,
+   "p": 4,
+   "quote": "cela est moins métaphysique que le droit divin, moins brutal que le droit prétendu historique"
+  },
+  {
+   "n": 10,
+   "skill": "intention de l’auteur",
+   "q": "Quelle position Renan défend-il sur le rattachement d’une province à une nation ?",
+   "options": [
+    "Le roi doit trancher seul.",
+    "La sécurité militaire passe avant tout.",
+    "Le droit historique doit décider.",
+    "Ce sont les habitants qui doivent être consultés."
+   ],
+   "answer": 3,
+   "p": 4,
+   "quote": "si quelqu’un en cette affaire a droit d’être consulté, c’est l’habitant"
+  }
+ ]
+}
