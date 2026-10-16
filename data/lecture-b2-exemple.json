@@ -1,5 +1,5 @@
 {
- "version": "b2-2026-10-14-bfe2ab3c",
+ "version": "b2-2026-10-16-40ad3235",
  "id": "renan-nation",
  "order": 1,
  "free": true,
@@ -79,30 +79,30 @@
   {
    "n": 1,
    "skill": "structure",
-   "q": "Dans le paragraphe 1, quel rôle joue la liste « la race, la langue, les intérêts, l’affinité religieuse, la géographie, les nécessités militaires » ?",
+   "q": "Quelle annonce Renan fait-il à son auditoire à la fin du paragraphe 1 ?",
    "options": [
-    "Elle annonce le plan de la suite de la conférence.",
-    "Elle résume les causes des guerres de son époque.",
-    "Elle énumère les conditions nécessaires à toute nation.",
-    "Elle rappelle les critères que l’auteur a déjà écartés."
+    "Il va maintenant réfuter un à un les critères cités.",
+    "Il répondra aux questions du public à la fin.",
+    "Il va appuyer sa thèse sur l’histoire de la France.",
+    "La suite sera brève, grâce à ce qui a été dit auparavant."
    ],
    "answer": 3,
    "p": 1,
-   "quote": "Nous venons de voir ce qui ne suffit pas à créer un tel principe spirituel"
+   "quote": "Par suite de ce qui a été dit antérieurement, je n’aurai pas désormais à retenir bien longtemps votre attention."
   },
   {
    "n": 2,
    "skill": "compréhension littérale",
-   "q": "Selon Renan, où se situent les deux éléments qui forment « l’âme » d’une nation ?",
+   "q": "Au paragraphe 2, comment Renan appelle-t-il l’ensemble formé par « un passé héroïque, des grands hommes, de la gloire » ?",
    "options": [
-    "L’un dans le passé, l’autre dans le présent.",
-    "L’un dans le territoire, l’autre dans l’armée.",
-    "L’un dans la langue, l’autre dans la religion.",
-    "L’un dans la loi, l’autre dans l’économie."
+    "Le capital social.",
+    "Le trésor des ancêtres.",
+    "Le patrimoine commun.",
+    "Le legs national."
    ],
    "answer": 0,
    "p": 2,
-   "quote": "L’une est dans le passé, l’autre dans le présent."
+   "quote": "voilà le capital social sur lequel on assied une idée nationale"
   },
   {
    "n": 3,
@@ -121,44 +121,44 @@
   {
    "n": 4,
    "skill": "inférence",
-   "q": "Que veut dire Renan par « L’homme, messieurs, ne s’improvise pas » ?",
+   "q": "Au paragraphe 2, quelle raison Renan donne-t-il pour juger le culte des ancêtres « de tous le plus légitime » ?",
    "options": [
-    "Un orateur doit toujours préparer son discours.",
-    "Chacun doit choisir sa nation sans hésiter.",
-    "Les responsables politiques manquent d’expérience.",
-    "Une nation, comme une personne, est le produit d’une longue histoire."
+    "Les ancêtres ont versé leur sang pour la patrie.",
+    "Les ancêtres nous ont transmis la terre où nous vivons.",
+    "Les ancêtres ont fondé les institutions qui nous gouvernent.",
+    "Les ancêtres nous ont faits ce que nous sommes."
    ],
    "answer": 3,
    "p": 2,
-   "quote": "La nation, comme l’individu, est l’aboutissant d’un long passé d’efforts, de sacrifices et de dévouements."
+   "quote": "Le culte des ancêtres est de tous le plus légitime ; les ancêtres nous ont faits ce que nous sommes."
   },
   {
    "n": 5,
-   "skill": "intention de l’auteur",
-   "q": "Pourquoi Renan cite-t-il le chant spartiate « Nous sommes ce que vous fûtes ; nous serons ce que vous êtes » ?",
+   "skill": "inférence",
+   "q": "Dans le chant spartiate que cite Renan, qui parle, et à qui ?",
    "options": [
-    "Pour présenter Sparte comme le modèle politique de la France.",
-    "Pour montrer que la poésie compte plus que les lois.",
-    "Pour critiquer le culte des ancêtres.",
-    "Pour condenser en une phrase le lien entre les générations d’une patrie."
+    "Les aînés, qui s’adressent aux jeunes.",
+    "Les citoyens, qui s’adressent aux étrangers.",
+    "Les soldats, qui s’adressent à leur roi.",
+    "Les jeunes, qui s’adressent à leurs aînés."
    ],
    "answer": 3,
    "p": 2,
-   "quote": "est dans sa simplicité l’hymne abrégé de toute patrie"
+   "quote": "« Nous sommes ce que vous fûtes ; nous serons ce que vous êtes »"
   },
   {
    "n": 6,
    "skill": "compréhension littérale",
-   "q": "D’après le paragraphe 3, qu’est-ce qui « vaut mieux que des douanes communes et des frontières conformes aux idées stratégiques » ?",
+   "q": "Selon le paragraphe 3, malgré quelles différences ce partage d’un passé et d’un avenir se comprend-il ?",
    "options": [
-    "Signer des traités de commerce avantageux.",
-    "Avoir une armée commune.",
-    "Avoir souffert, joui et espéré ensemble.",
-    "Parler la même langue et pratiquer la même religion."
+    "Malgré les distances et les frontières naturelles.",
+    "Malgré les différences de religion et de coutumes.",
+    "Malgré les diversités de race et de langue.",
+    "Malgré les différences de fortune et de classe."
    ],
    "answer": 2,
    "p": 3,
-   "quote": "avoir souffert, joui, espéré ensemble, voilà ce qui vaut mieux que des douanes communes"
+   "quote": "voilà ce que l’on comprend malgré les diversités de race et de langue"
   },
   {
    "n": 7,
@@ -177,16 +177,16 @@
   {
    "n": 8,
    "skill": "vocabulaire en contexte",
-   "q": "Renan écrit que l’existence d’une nation est « un plébiscite de tous les jours ». Il veut dire que la nation…",
+   "q": "Au paragraphe 4, dans « le droit prétendu historique », que signifie « prétendu » ?",
    "options": [
-    "dépend chaque jour de la décision d’un chef.",
-    "change de frontières chaque année.",
-    "repose sur l’accord, renouvelé chaque jour, de ceux qui veulent vivre ensemble.",
-    "organise un vote officiel chaque jour."
+    "revendiqué avec fierté par un peuple.",
+    "très ancien, transmis depuis des siècles.",
+    "présenté comme tel, mais contestable.",
+    "établi avec certitude par les historiens."
    ],
    "answer": 2,
    "p": 4,
-   "quote": "le consentement, le désir clairement exprimé de continuer la vie commune"
+   "quote": "moins brutal que le droit prétendu historique"
   },
   {
    "n": 9,
@@ -205,16 +205,16 @@
   {
    "n": 10,
    "skill": "intention de l’auteur",
-   "q": "Quelle position Renan défend-il sur le rattachement d’une province à une nation ?",
+   "q": "Pour faire comprendre sa métaphore du plébiscite, à quoi Renan compare-t-il l’existence d’une nation ?",
    "options": [
-    "Le roi doit trancher seul.",
-    "La sécurité militaire passe avant tout.",
-    "Le droit historique doit décider.",
-    "Ce sont les habitants qui doivent être consultés."
+    "À un contrat, que chacun peut rompre à tout moment.",
+    "À une amitié, qui ne dure que si on l’entretient.",
+    "À un mariage, qui doit être voulu chaque jour par les deux époux.",
+    "À l’existence d’un individu, qui affirme sans cesse sa vie."
    ],
    "answer": 3,
    "p": 4,
-   "quote": "si quelqu’un en cette affaire a droit d’être consulté, c’est l’habitant"
+   "quote": "comme l’existence de l’individu est une affirmation perpétuelle de vie"
   }
  ]
 }
