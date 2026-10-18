@@ -81,7 +81,7 @@ export function heroExcerpt(u, demo) {
 <ol class="exam" start="6">${sheetQuestion(q6)}</ol>
 <p class="small"><strong>Corrigé, question 3 : ${L4[q3.answer]}.</strong> ${e(q3.explanation)} <span class="muted">« ${e(q3.evidence.quote)} » (${e(q3.evidence.label)})</span></p>
 </div>
-<figcaption class="small">Extrait réel du sujet d’exemple imprimable et de son corrigé, mis en page comme dans l’espace formateur. <a href="${u('exemple-examen/')}" data-cta data-sample>Voir le sujet complet et le corrigé</a></figcaption>
+<figcaption class="small">Extrait réel du sujet d’exemple imprimable et de son corrigé, mis en page comme dans l’espace formateur. <a href="${u('exemple-examen/')}" data-cta data-sample data-mesure="sample_click">Voir le sujet complet et le corrigé</a></figcaption>
 </figure>`;
 }
 
@@ -108,12 +108,12 @@ export function homeBody({ u, pilot, annual, delivery, demo }) {
 <div class="hero-text">
 <h1>Examen civique : des examens blancs prêts à imprimer pour vos groupes</h1>
 <p class="lead">Pour les formateurs des centres agréés, des écoles de FLE et des associations : un sujet de 40 questions au format officiel, sa grille et son corrigé sourcé, imprimés en un clic.</p>
-<p class="hero-price">Licence par organisme dès <strong><span data-prix-pilote>${pilot}</span> net</strong> (TVA non applicable, art. 293 B du CGI), en pré-commande remboursable si la version relue n’est pas livrée le ${delivery}.</p>
 <div class="btn-row">
-<a class="btn" href="${u('entrainement/')}" data-cta data-sample>Essayer 10 questions gratuitement</a>
+<a class="btn" href="${u('entrainement/')}" data-cta data-sample data-mesure="sample_click">Essayer 10 questions gratuitement</a>
 <a class="btn secondary" href="#tarifs" data-cta>Voir les prix et la licence</a>
 </div>
-<p class="small">Aussi gratuits : <a href="${u('exemple-examen/')}" data-sample>un sujet d’exemple à imprimer, avec grille et corrigé</a> · <a href="${u('lecture-b2/exemple/')}" data-sample>une série complète de Lecture B2</a>.</p>
+<p class="hero-price">Licence par organisme dès <strong><span data-prix-pilote>${pilot}</span> net</strong> (TVA non applicable, art. 293 B du CGI), en pré-commande remboursable si la version relue n’est pas livrée le ${delivery}.</p>
+<p class="small">Aussi gratuits : <a href="${u('exemple-examen/')}" data-sample data-mesure="sample_click">un sujet d’exemple à imprimer, avec grille et corrigé</a> · <a href="${u('lecture-b2/exemple/')}" data-sample data-mesure="sample_click">une série complète de Lecture B2</a>.</p>
 </div>
 ${heroExcerpt(u, demo)}
 </div>
@@ -128,7 +128,7 @@ ${freeOfficialBlock(u)}
 <div class="card"><h3>La correction d’un groupe sans calcul</h3><p>Vous tapez les 40 lettres d’un apprenant : l’outil donne la note sur 40, l’écart au seuil de 32 et les thèmes à retravailler. La fiche de groupe s’imprime. Les noms restent sur votre ordinateur.</p></div>
 <div class="card"><h3>L’entretien de naturalisation en jeu de rôle</h3><p>${STATS.cards} cartes de questions d’entraînement tirées de la Charte des droits et devoirs du citoyen français, avec relance, chronomètre et liste des points à vérifier. Le formateur joue l’agent. Aucune IA n’intervient.</p></div>
 </div>
-<p>Voir avant d’acheter : <a href="${u('exemple-examen/')}" data-sample>sujet d’exemple de 10 questions, grille et corrigé</a>, mis en page comme dans l’espace formateur.</p>
+<p>Voir avant d’acheter : <a href="${u('exemple-examen/')}" data-sample data-mesure="sample_click">sujet d’exemple de 10 questions, grille et corrigé</a>, mis en page comme dans l’espace formateur.</p>
 </section>
 <section id="tarifs" data-section="tarifs">
 <h2>Licence fondateur, en pré-commande</h2>
@@ -151,7 +151,7 @@ ${licenceScope(u)}
 <h2>Questions fréquentes</h2>
 ${faqHtml(HOME_FAQ(u, delivery))}
 </section>
-<div class="btn-row"><a class="btn" href="${u('commander/')}" data-cta>Pré-commander une licence</a><a class="btn secondary" href="${u('exemple-examen/')}" data-sample>Voir le sujet d’exemple</a></div>`;
+<div class="btn-row"><a class="btn" href="${u('commander/')}" data-cta>Pré-commander une licence</a><a class="btn secondary" href="${u('exemple-examen/')}" data-sample data-mesure="sample_click">Voir le sujet d’exemple</a></div>`;
 }
 
 export function licenceBody({ u, pilot, annual, delivery, b2a, b2solo }) {
@@ -182,7 +182,7 @@ ${betaBlock(delivery, u)}
 <h3 id="couvre">Ce que couvre une licence</h3>
 ${licenceScope(u)}
 <p class="guarantee">${deliveryLine(u, delivery)}</p>
-<div class="btn-row"><a class="btn" href="${u('commander/')}" data-cta>Pré-commander une licence</a><a class="btn secondary" href="${u('exemple-examen/')}" data-sample>Voir le sujet d’exemple</a></div>
+<div class="btn-row"><a class="btn" href="${u('commander/')}" data-cta>Pré-commander une licence</a><a class="btn secondary" href="${u('exemple-examen/')}" data-sample data-mesure="sample_click">Voir le sujet d’exemple</a></div>
 </section>
 <section id="comment" data-section="comment">
 <h2>Comment ça se passe</h2>
@@ -256,7 +256,7 @@ export function demoBody({ u }) {
 <p class="small"><span class="beta-pill">version bêta, pas encore relue par un expert</span> Au vrai examen : 40 questions, 45 minutes, 32 bonnes réponses pour réussir.</p>
 <div id="quiz" class="card" aria-live="polite"><noscript><p>Ce test a besoin de JavaScript.</p></noscript><p class="muted">Chargement…</p></div>
 <p class="small muted">Rien n’est envoyé : vos réponses restent dans votre navigateur.</p>
-<p>Formateur ? Les mêmes 10 questions existent en <a href="${u('exemple-examen/')}" data-sample>sujet imprimable avec grille et corrigé</a>, mis en page comme les examens blancs de 40 questions de la <a href="${u('licence/')}">licence</a>.</p>
+<p>Formateur ? Les mêmes 10 questions existent en <a href="${u('exemple-examen/')}" data-sample data-mesure="sample_click">sujet imprimable avec grille et corrigé</a>, mis en page comme les examens blancs de 40 questions de la <a href="${u('licence/')}">licence</a>.</p>
 ${freeOfficialBlock(u)}`;
 }
 
@@ -495,7 +495,7 @@ export function lectureB2Body({ u, delivery, b2a, b2solo, b2cat }) {
 <p class="hero-price">En option d’une licence : <strong><span data-prix-b2>+${b2a}</span> net</strong> ; seul : <strong>${b2solo} net</strong> (TVA non applicable, art. 293 B du CGI). ${b2cat.sets.length} séries bêta à imprimer dès le paiement.</p>
 <p>Les textes sont des œuvres du domaine public (Renan, Hugo, Jaurès, Jules Ferry) ou des textes officiels (Déclaration de 1789, loi de 1905, fiche de service-public.gouv.fr). En une séance, le groupe s’entraîne à lire un texte argumenté et révise les repères de l’examen civique.</p>
 <div class="btn-row">
-<a class="btn" href="${u('lecture-b2/exemple/')}" data-cta data-sample>Voir la série gratuite (Renan)</a>
+<a class="btn" href="${u('lecture-b2/exemple/')}" data-cta data-sample data-mesure="sample_click">Voir la série gratuite (Renan)</a>
 <a class="btn secondary" href="${u('commander/?module=lecture-b2')}">Ajouter le module à une licence</a>
 </div>
 </section>
@@ -533,7 +533,7 @@ export function b2ExempleBody({ u, sheet, key, set }) {
   return `<h1>Série gratuite « ${esc2(set.title)} » d’Ernest Renan</h1>
 <p class="lead">La série complète, telle qu’elle s’imprime depuis l’espace formateur : texte, vocabulaire, 10 questions, grille de réponses et corrigé.</p>
 <p class="small"><span class="beta-pill">version bêta, pas encore relue par un expert</span> Libre d’usage en classe. Le texte de Renan est dans le domaine public ; questions et corrigé © READ FRANCE SAS.</p>
-<div class="btn-row no-print"><button type="button" class="btn" data-print-b2="sheet" data-sample>Imprimer la série</button><button type="button" class="btn secondary" data-print-b2="key" data-sample>Imprimer le corrigé</button><a class="btn secondary" href="${u('lecture-b2/')}">Le module Lecture B2</a></div>
+<div class="btn-row no-print"><button type="button" class="btn" data-print-b2="sheet" data-sample data-mesure="sample_download">Imprimer la série</button><button type="button" class="btn secondary" data-print-b2="key" data-sample data-mesure="sample_download">Imprimer le corrigé</button><a class="btn secondary" href="${u('lecture-b2/')}">Le module Lecture B2</a></div>
 ${sheet}
 ${key}
 <div class="no-print">${b2RuleBlock()}</div>`;
@@ -548,10 +548,10 @@ export function examSampleBody({ u, demo, pilot }) {
   const qs = demo.items;
   const L4 = ['A', 'B', 'C', 'D'];
   const e = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  return `<h1>Sujet d’exemple à imprimer : 10 questions d’examen civique, grille et corrigé</h1>
+  return `<h1>Exemple d’examen civique à imprimer : 10 questions, grille et corrigé</h1>
 <p class="lead">Le sujet, la grille de réponses et le corrigé sourcé tels que l’espace formateur les imprime. Un examen blanc de la licence compte 40 questions (28 de connaissance, 12 mises en situation) ; celui-ci en reprend 10, les mêmes que le <a href="${u('entrainement/')}">test gratuit en ligne</a>.</p>
 <p class="small"><span class="beta-pill">version bêta, pas encore relue par un expert</span> Libre d’usage avec vos apprenants. Questions de connaissance : listes officielles du ministère ; propositions, mises en situation et explications © READ FRANCE SAS.</p>
-<div class="btn-row no-print"><button type="button" class="btn" data-print-exam="exam" data-sample>Imprimer le sujet et la grille</button><button type="button" class="btn secondary" data-print-exam="key" data-sample>Imprimer le corrigé</button><a class="btn secondary" href="${u('licence/')}">La licence (examens de 40 questions)</a></div>
+<div class="btn-row no-print"><button type="button" class="btn" data-print-exam="exam" data-sample data-mesure="sample_download">Imprimer le sujet et la grille</button><button type="button" class="btn secondary" data-print-exam="key" data-sample data-mesure="sample_download">Imprimer le corrigé</button><a class="btn secondary" href="${u('licence/')}">La licence (examens de 40 questions)</a></div>
 <div class="sheet sheet-exam">
 <h2>Examen blanc – examen civique (sujet d’exemple)</h2>
 <p>Nom : ______________________ &nbsp; Prénom : ______________________</p>
