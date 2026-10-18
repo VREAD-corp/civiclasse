@@ -10,10 +10,29 @@ test('home: free official preparation stated, beta label, links to service-publi
   await page.goto(NOTRACK);
   await expect(page.locator('h1')).toContainText('Examen civique');
   await expect(page.locator('#gratuit')).toContainText('totalement gratuite');
-  await expect(page.locator('.beta-pill').first()).toHaveText('version bêta — relecture experte en cours');
+  await expect(page.locator('.beta-pill').first()).toHaveText('version bêta, pas encore relue par un expert');
   expect(await page.locator('a[href*="formation-civique.interieur.gouv.fr"]').count()).toBeGreaterThan(2);
   expect(await page.locator('a[href*="service-public.gouv.fr"]').count()).toBeGreaterThan(1);
   await expect(page.locator('.notice')).toContainText('sans lien avec le ministère');
+});
+
+test('POOLED-READING-01 (rd-hero): ?hero=b shows the real exam excerpt in the hero, ?hero=a hides it; CTA in the first mobile screen', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto('?hero=a&octave_notrack=1');
+  await expect(page.locator('html')).toHaveAttribute('data-xp-rd-hero', 'a');
+  await expect(page.locator('[data-hero-excerpt]')).toBeHidden();
+  const cta = page.locator('.hero .btn').first();
+  expect((await cta.boundingBox()).y).toBeLessThan(667);
+  await page.goto('?hero=b&octave_notrack=1');
+  await expect(page.locator('html')).toHaveAttribute('data-xp-rd-hero', 'b');
+  await expect(page.locator('[data-hero-excerpt]')).toBeVisible();
+  await expect(page.locator('[data-hero-excerpt]')).toContainText('Qui nomme le Premier ministre');
+  expect((await page.locator('.hero .btn').first().boundingBox()).y).toBeLessThan(667);
+  await page.locator('[data-hero-excerpt] a[data-sample]').click();
+  await expect(page).toHaveURL(/exemple-examen\/$/);
+  await expect(page.locator('.sheet-exam ol.exam > li')).toHaveCount(10);
+  await expect(page.locator('.sheet-key tbody tr')).toHaveCount(10);
+  await expect(page.locator('nav.crumbs')).toContainText('Sujet d’exemple');
 });
 
 test('free 10-question test: answer all, see corrections with official sources and a score', async ({ page }) => {
@@ -100,7 +119,7 @@ test('order page: radios, SIREN check, terms link, beta notice (no payment made)
   await expect(page.locator('input[name=product]')).toHaveCount(5);
   await expect(page.locator('#regle-b2')).toContainText('Seul un diplôme ou une attestation officiels prouvent ce niveau');
   await expect(page.locator('#terms-link')).toHaveAttribute('href', /cgv-pro\/$/);
-  await expect(page.locator('.callout-warn')).toContainText('version bêta');
+  await expect(page.locator('.callout-warn').first()).toContainText('version bêta');
   await page.fill('input[name=siren]', '123456789');
   expect(await page.locator('input[name=siren]').evaluate((e) => e.validationMessage)).toContain('SIREN invalide');
 });

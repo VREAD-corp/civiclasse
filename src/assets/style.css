@@ -150,6 +150,41 @@ ol.b2-q ul { list-style: none; padding-left: 0; margin: 4px 0 0; }
 .product-choice label.addon { margin-left: 1.4em; }
 @media (max-width: 600px) { .b2-vocab dl { grid-template-columns: 1fr; } .b2-p { text-align: left; } .product-choice label.addon { margin-left: 0.6em; } }
 
+/* Hero: text + (variant b of POOLED-READING-01) a real excerpt of the printed exam. The excerpt is hidden unless cro.js
+ * sets <html data-xp-rd-hero="b"> (synchronously, before first paint). */
+.hero-grid { display: block; }
+.hero-price { font-size: 1rem; }
+.hero-excerpt { display: none; margin: 8px 0 16px; }
+html[data-xp-rd-hero="b"] .hero-excerpt { display: block; }
+.hero-excerpt .sheet-mini { margin: 0 0 6px; padding: 14px 16px; font-size: 0.92rem; box-shadow: 0 2px 10px rgba(29, 36, 51, 0.08); }
+.hero-excerpt .sheet-mini ol.exam { margin: 0 0 8px; padding-left: 1.8em; }
+.hero-excerpt .sheet-mini ol.exam > li { margin-bottom: 6px; }
+.hero-excerpt .sheet-mini p { margin-bottom: 6px; }
+.hero-excerpt figcaption { color: var(--muted); }
+@media (min-width: 860px) {
+  html[data-xp-rd-hero="b"] .hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+  html[data-xp-rd-hero="b"] .hero-excerpt { margin-top: 0.4em; }
+}
+.guarantee { border-left: 4px solid var(--ok); background: var(--ok-soft); padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 0.95rem; }
+ul.scope { padding-left: 1.2em; }
+
+/* Breadcrumbs */
+nav.crumbs { font-size: 0.88rem; color: var(--muted); padding-top: 10px; }
+nav.crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 2px 6px; margin: 0; padding: 0; }
+nav.crumbs li { margin: 0; }
+nav.crumbs li + li::before { content: "›"; margin-right: 6px; color: var(--muted); }
+nav.crumbs a { color: var(--muted); }
+
+/* Mobile: the main menu on one scrollable line, so the offer and its button fit in the first screen. */
+@media (max-width: 600px) {
+  nav.main { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  nav.main ul { flex-wrap: nowrap; white-space: nowrap; gap: 4px 14px; padding-bottom: 4px; }
+  nav.main a { display: inline-block; padding: 6px 0; }
+  .notice { font-size: 0.82rem; }
+  .notice .wrap { padding-top: 6px; padding-bottom: 6px; }
+  .hero .lead { font-size: 1.05rem; }
+}
+
 @media (max-width: 600px) {
   body { font-size: 16px; }
   h1 { font-size: 1.6rem; }
@@ -168,6 +203,7 @@ ol.b2-q ul { list-style: none; padding-left: 0; margin: 4px 0 0; }
   body.print-only-b2 main h1, body.print-only-b2 main > .wrap > p, body.print-only-b2key main h1, body.print-only-b2key main > .wrap > p, body.print-mode #p-b2 .card.controls { display: none !important; }
   .sheet-b2key { break-before: page; }
   body.print-mode main h1, body.print-mode #login, body.print-mode #licence-line, body.print-mode #space > .callout, body.print-mode #int-card, body.print-mode #int-summary { display: none !important; }
+  body.print-mode main > .wrap > p, body.print-mode .hero-excerpt { display: none !important; }
   body.print-only-cards .sheet-cards.screen-hidden { display: block !important; }
   .panel[hidden] { display: none !important; }
   a { color: #000; text-decoration: none; }

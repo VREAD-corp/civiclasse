@@ -3,7 +3,9 @@
  *   (no storage). ?prix=p129 forces a variant.
  * 'civi-b2-prix': price of the Lecture B2 add-on, +69 € (a69) or +99 € (b99), drawn once per tab (sessionStorage,
  *   cleared when the tab closes). Not 'day': two 2-variant day-mode tests would always fall on the same days.
- *   ?b2=b99 forces a variant. */
+ *   ?b2=b99 forces a variant.
+ * 'rd-hero': POOLED-READING-01 (2026-10-19): hero a = current, b = first screen shows a real excerpt of the deliverable.
+ *   Same id on the 7 reading sites, pooled analysis in vread-revenue-lab. ?hero=b forces b. Home page only, per tab. */
 window.OCTAVE_XP = [{
   id: 'civi-prix',
   variants: ['p99', 'p129'],
@@ -17,4 +19,10 @@ window.OCTAVE_XP = [{
   mode: 'tab',
   param: 'b2',
   swap: { b99: [['[data-prix-b2]', 'text', '+99 €']] },
+}, {
+  id: 'rd-hero',
+  variants: ['a', 'b'],
+  mode: 'tab',
+  param: 'hero',
+  pages: '^/civiclasse/$',
 }];

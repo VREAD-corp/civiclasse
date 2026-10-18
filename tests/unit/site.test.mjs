@@ -9,7 +9,7 @@ import { buildExam, parseAnswers, score, PLAN, rng } from '../../src/assets/exam
 
 const ROOT = resolve(import.meta.dirname, '../..');
 const DIST = join(ROOT, 'dist-test');
-execFileSync(process.execPath, [join(ROOT, 'scripts/build.mjs')], { env: { ...process.env, OUT: 'dist-test' } });
+const BUILD_LOG = execFileSync(process.execPath, [join(ROOT, 'scripts/build.mjs')], { env: { ...process.env, OUT: 'dist-test' } }).toString();
 const page = (p) => readFileSync(join(DIST, p, 'index.html'), 'utf8');
 const all = (dir = DIST) => readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? all(join(dir, f)) : [join(dir, f)]));
 
@@ -63,7 +63,11 @@ test('every page: private-service notice, free official preparation link, beta l
     assert.match(h, /sans lien avec le ministère de l’Intérieur/, f);
     assert.match(h, /formation-civique\.interieur\.gouv\.fr/, f);
     assert.match(h, /service-public\.gouv\.fr/, f);
-    assert.match(h, /version bêta — relecture experte en cours/i, f);
+    assert.match(h, /version bêta, pas encore relue par un expert/i, f);
+    assert.doesNotMatch(h, /relecture experte en cours/i, f);
+    assert.match(h, /href="https:\/\/outils\.vread\.fr\/a-propos\/">Qui fait ce site, et comment/, f);
+    assert.match(h, /src="\/civiclasse\/assets\/goals\.js" defer/, f);
+    assert.doesNotMatch(h, /jalonel/i, f);
     assert.match(h, /src="\/civiclasse\/mesure\.js" defer/, f);
     assert.match(h, /src="\/civiclasse\/cro\.js" data-site="civiclasse"/, f);
     assert.ok(h.indexOf('assets/xp.js') < h.indexOf('/cro.js'), 'xp.js before cro.js');
@@ -89,8 +93,9 @@ test('prices on the pages and in checkout-config equal sales.config.json (Config
   const o = JSON.parse(cfg.slice(cfg.indexOf('{'), cfg.lastIndexOf('}') + 1));
   assert.deepEqual(Object.fromEntries(Object.entries(o.offers).map(([k, v]) => [k, v.amount])), sc.products);
   assert.equal(o.termsVersion, 'cgv-pro-civiclasse-2026-10-14');
-  assert.match(page('licence/'), /<span data-prix-pilote>99 €<\/span> <s>149 €<\/s>/);
-  assert.match(page('licence/'), /329 € <s>490 €<\/s>/);
+  assert.match(page('licence/'), /<span data-prix-pilote>99 €<\/span><\/p><p class="small muted">Prix prévu après la relecture : 149 €/);
+  assert.match(page('licence/'), /Prix prévu après la relecture : 490 €/);
+  for (const p of ['', 'licence/']) assert.doesNotMatch(page(p), /<s>/, 'no struck-through price');
   assert.match(page('commander/'), /value="civiclasse-pilote-99" data-licence="pilote" checked/);
   assert.match(page('commander/'), /value="civiclasse-annuelle-329"/);
   assert.match(page('cgv-pro/'), /cgv-pro-civiclasse-2026-10-14/);
@@ -172,5 +177,66 @@ test('A/B config: civi-prix by day, civi-b2-prix by tab (never two day-mode test
   const src = readFileSync(join(ROOT, 'src/assets/xp.js'), 'utf8');
   const w = {};
   new Function('window', src)(w);
-  assert.deepEqual(w.OCTAVE_XP.map((x) => [x.id, x.mode, x.variants.join('/')]), [['civi-prix', 'day', 'p99/p129'], ['civi-b2-prix', 'tab', 'a69/b99']]);
+  assert.deepEqual(w.OCTAVE_XP.map((x) => [x.id, x.mode, x.variants.join('/')]), [['civi-prix', 'day', 'p99/p129'], ['civi-b2-prix', 'tab', 'a69/b99'], ['rd-hero', 'tab', 'a/b']]);
+  const rd = w.OCTAVE_XP[2];
+  assert.equal(rd.param, 'hero');
+  assert.ok(new RegExp(rd.pages).test('/civiclasse/') && !new RegExp(rd.pages).test('/civiclasse/licence/'), 'rd-hero on the home page only');
+});
+
+test('POOLED-READING-01: the home hero carries a real excerpt of the printed exam, hidden unless variant b', () => {
+  const h = page('');
+  const fig = /<figure class="hero-excerpt" data-hero-excerpt>[\s\S]*?<\/figure>/.exec(h)[0];
+  assert.match(fig, /Qui nomme le Premier ministre \?/);
+  assert.match(fig, /travail dissimulé/);
+  assert.match(fig, /href="\/civiclasse\/exemple-examen\/" data-cta data-sample/);
+  const css = readFileSync(join(DIST, 'assets/style.css'), 'utf8');
+  assert.match(css, /\.hero-excerpt \{ display: none;/);
+  assert.match(css, /html\[data-xp-rd-hero="b"\] \.hero-excerpt \{ display: block; \}/);
+  // the excerpt is verbatim from the free sample page
+  const sample = page('exemple-examen/');
+  assert.match(sample, /Qui nomme le Premier ministre \?/);
+  assert.equal((sample.match(/<ol class="exam">[\s\S]*?<\/ol>\n<div class="print-break">/)[0].match(/<li><p>/g) || []).length, 10);
+});
+
+test('SEO: unique titles and descriptions, breadcrumbs, structured data, sitemap lastmod from the manifest', () => {
+  const htmls = all().filter((f) => f.endsWith('index.html'));
+  const idx = htmls.filter((f) => !/name="robots" content="noindex"/.test(readFileSync(f, 'utf8')));
+  const titles = idx.map((f) => /<title>(.*?)<\/title>/.exec(readFileSync(f, 'utf8'))[1]);
+  const descs = idx.map((f) => /<meta name="description" content="(.*?)">/.exec(readFileSync(f, 'utf8'))[1]);
+  assert.equal(new Set(titles).size, titles.length);
+  assert.equal(new Set(descs).size, descs.length);
+  for (const f of idx) {
+    const h = readFileSync(f, 'utf8');
+    assert.equal((h.match(/<h1[ >]/g) || []).length, 1, f);
+    const lds = [...h.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
+    if (!f.endsWith('dist-test/index.html')) {
+      assert.match(h, /<nav class="crumbs wrap" aria-label="Fil d’Ariane">/, f);
+      const bc = lds.find((x) => x['@type'] === 'BreadcrumbList');
+      assert.equal(bc.itemListElement[0].item, 'https://outils.vread.fr/', f);
+    }
+  }
+  const ldOf = (p, type) => [...page(p).matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1])).find((x) => x['@type'] === type);
+  assert.equal(ldOf('', 'FAQPage').mainEntity.length, (page('').match(/<details id="faq-/g) || []).length);
+  assert.equal(ldOf('lecture-b2/', 'FAQPage').mainEntity.length, (page('lecture-b2/').match(/<details id="faq-b2-/g) || []).length);
+  assert.equal(ldOf('examen-civique/', 'Article').author.url, 'https://outils.vread.fr/a-propos/');
+  for (const p of ['entrainement/', 'exemple-examen/', 'lecture-b2/exemple/']) {
+    const r = ldOf(p, 'LearningResource');
+    assert.equal(r.isAccessibleForFree, true, p);
+    assert.match(r.dateModified, /^\d{4}-\d{2}-\d{2}$/);
+  }
+  const sm = readFileSync(join(DIST, 'sitemap.xml'), 'utf8');
+  assert.equal((sm.match(/<url>/g) || []).length, idx.length);
+  assert.match(sm, /exemple-examen\/<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
+  assert.doesNotMatch(sm, /commander\/|espace-formateur\/|commande\//);
+  assert.match(BUILD_LOG, /lastmod stale: 0\b/, 'data/lastmod.json is stale: run npm run lastmod');
+});
+
+test('licence, refund and invoice answers sit next to the buy buttons', () => {
+  const order = page('commander/');
+  assert.match(order, /<p class="guarantee small">Remboursement intégral sur simple e-mail si la version relue n’est pas livrée le 15 janvier 2027/);
+  assert.ok(order.indexOf('class="guarantee small"') < order.indexOf('id="pay-button"'));
+  for (const id of ['faq-licence', 'faq-maj', 'faq-facture']) assert.match(order, new RegExp(`<details id="${id}">`));
+  for (const p of ['', 'licence/', 'commander/']) assert.match(page(p), /Un organisme, un code/, p);
+  assert.match(page(''), /n’est pas encore confirmé/);
+  assert.match(page('lecture-b2/'), /38 sur 60/);
 });

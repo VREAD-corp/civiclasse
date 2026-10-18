@@ -42,61 +42,122 @@ export const freeOfficialBlock = (u) => `<section class="callout" id="gratuit" d
 <p>Civiclasse est un service privé de READ FRANCE SAS, sans lien avec le ministère de l’Intérieur. Notre <a href="${u('entrainement/')}">test de 10 questions</a> et nos pages d’information sont gratuits. La licence payante s’adresse aux organismes qui animent des séances de préparation : elle leur fait gagner le temps de fabriquer et de corriger les supports (détail <a href="${u('licence/')}#ajoute">ci-dessous</a>).</p>
 </section>`;
 
-export const betaBlock = (delivery) => `<div class="callout callout-warn" role="note">
-<p><span class="beta-pill">version bêta — relecture experte en cours</span></p>
-<p>Les réponses et les explications de nos questions ont été rédigées par READ FRANCE, avec l’aide d’un outil d’IA, puis vérifiées une à une contre un texte officiel (fiches du ministère, Constitution, Livret du citoyen, service-public.gouv.fr). Toute question dont la bonne réponse ne figurait pas mot pour mot dans une source officielle a été retirée : ${STATS.removed} sur ${STATS.total}. Aucun expert n’a encore relu la banque. La version relue est promise au plus tard le ${delivery}.</p>
+/** Who writes and publishes, and how: the READ FRANCE page on the outils.vread.fr hub. */
+export const ABOUT = 'https://outils.vread.fr/a-propos/';
+export const aboutLink = () => `<a href="${ABOUT}">Qui fait ce site, et comment</a>`;
+
+/** Pre-order terms, said plainly (the date is the CGV deadline; the review schedule is not confirmed yet). */
+export const deliveryLine = (u, delivery) => `Date limite de livraison de la version relue : au plus tard le ${delivery} (article 6 des <a href="${u('cgv-pro/')}">CGV</a>). Le calendrier de la relecture par un expert n’est pas encore confirmé. Si la version relue n’est pas livrée à cette date, vous obtenez le remboursement intégral sur simple e-mail.`;
+
+export const betaBlock = (delivery, u = (p) => '/civiclasse/' + p) => `<div class="callout callout-warn" role="note">
+<p><span class="beta-pill">version bêta, pas encore relue par un expert</span></p>
+<p>Les réponses proposées et les explications ont été rédigées par Octave, l’agent IA de READ FRANCE, puis vérifiées une à une contre un texte officiel (fiches du ministère, Constitution, Livret du citoyen, service-public.gouv.fr). Toute question dont la bonne réponse ne figurait pas mot pour mot dans une source officielle a été retirée : ${STATS.removed} sur ${STATS.total}. Aucun expert n’a encore relu la banque.</p>
+<p>${deliveryLine(u, delivery)} ${aboutLink()}.</p>
 </div>`;
 
-export function homeBody({ u, pilot, annual, delivery }) {
+/** What one licence covers (CGV article 8), shown on the home, offer and order pages. */
+export const licenceScope = (u) => `<ul class="scope">
+<li>Un organisme, un code : toute votre équipe pédagogique utilise l’espace formateur avec le même code d’accès.</li>
+<li>Vous imprimez et distribuez les sujets, les grilles et les corrigés à vos propres apprenants, jusqu’à 60 avec la Pilote ou 300 avec l’Annuelle.</li>
+<li>Le code ne se donne ni aux apprenants ni à un autre organisme. Pas de revente, pas de mise en ligne des contenus.</li>
+<li>Sans supplément : la version bêta dès le paiement, la correction des questions signalées, puis la version relue.</li>
+</ul>
+<p class="small muted">Texte complet : article 8 des <a href="${u('cgv-pro/')}">CGV</a>.</p>`;
+
+const L4 = ['A', 'B', 'C', 'D'];
+const e = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/** One question as printed on the exam sheet (same markup as the trainer area). */
+export const sheetQuestion = (q) => `<li><p>${q.kind === 'situation' ? '<span class="kind-tag">Mise en situation</span>' : ''}${e(q.prompt)}</p><ul>${q.options.map((o, k) => `<li>${L4[k]}. ${e(o)}</li>`).join('')}</ul></li>`;
+
+/** Variant b of the pooled test POOLED-READING-01 (rd-hero): a real excerpt of the printed exam and its key, in the
+ * first screen. Hidden unless <html data-xp-rd-hero="b"> (set by cro.js before the page renders). */
+export function heroExcerpt(u, demo) {
+  const q3 = demo.items[2], q6 = demo.items[5];
+  return `<figure class="hero-excerpt" data-hero-excerpt>
+<div class="sheet sheet-mini">
+<p class="small muted">Examen blanc · sujet d’exemple · questions 3 et 6</p>
+<ol class="exam" start="3">${sheetQuestion(q3)}</ol>
+<ol class="exam" start="6">${sheetQuestion(q6)}</ol>
+<p class="small"><strong>Corrigé, question 3 : ${L4[q3.answer]}.</strong> ${e(q3.explanation)} <span class="muted">« ${e(q3.evidence.quote)} » (${e(q3.evidence.label)})</span></p>
+</div>
+<figcaption class="small">Extrait réel du sujet d’exemple imprimable et de son corrigé, mis en page comme dans l’espace formateur. <a href="${u('exemple-examen/')}" data-cta data-sample>Voir le sujet complet et le corrigé</a></figcaption>
+</figure>`;
+}
+
+export const HOME_FAQ = (u, delivery) => [
+  ['faq-officiel', 'Est-ce un site officiel ?', `Non. Civiclasse est un service privé de READ FRANCE SAS. Les seules sources officielles sont le ministère de l’Intérieur (formation-civique.interieur.gouv.fr), service-public.gouv.fr et Légifrance. Nous ne vendons ni inscription ni attestation : on s’inscrit à l’examen dans un centre agréé par la CCI Paris Île-de-France ou France Éducation International.`],
+  ['faq-candidat', 'Je suis candidat : dois-je acheter la licence ?', `Non. Les ressources officielles suffisent et elles sont gratuites (liste ci-dessus). La licence sert aux formateurs qui préparent des groupes.`],
+  ['faq-licence', 'Que couvre une licence ?', `Un organisme, avec toute son équipe pédagogique, sur un seul code d’accès. Vous imprimez les sujets, grilles et corrigés pour vos propres apprenants : jusqu’à 60 avec la Pilote, 300 avec l’Annuelle. Le code ne se donne pas aux apprenants ni à un autre organisme (article 8 des <a href="${u('cgv-pro/')}">CGV</a>).`],
+  ['faq-maj', 'Les mises à jour sont-elles comprises ?', `Oui, pendant la licence. Une question signalée comme fausse est corrigée ou retirée, et la version relue remplace la bêta sans supplément, avec le même code. La licence de 3 ou 12 mois ne commence qu’à la livraison de cette version relue.`],
+  ['faq-facture', 'Recevrai-je une facture ? Puis-je payer sur devis ?', `La facture acquittée part par e-mail avec le code d’accès, avec la mention « TVA non applicable, art. 293 B du CGI ». Le paiement en ligne se fait aujourd’hui par carte uniquement (article 5 des CGV). Si votre organisme exige un devis, un bon de commande ou un virement, écrivez à <a href="mailto:octave@vread.fr">octave@vread.fr</a> : cette voie n’est pas encore ouverte en ligne.`],
+  ['faq-questions', 'D’où viennent les questions ?', `Les questions de connaissance reprennent mot pour mot les listes officielles publiées par le ministère. Ces listes ne donnent ni les réponses proposées ni la bonne réponse : nous les avons rédigées. Les mises en situation officielles ne sont pas publiées : les nôtres sont des exercices du même type, rattachés à une fiche officielle. Le détail est sur la page <a href="${u('sources/')}">Sources</a>.`],
+  ['faq-beta', 'Que veut dire « version bêta » ?', `Chaque bonne réponse a été comparée à un extrait de texte officiel, mais aucun expert n’a encore relu l’ensemble. Le calendrier de cette relecture n’est pas encore confirmé ; la date limite écrite dans nos CGV est le ${delivery}, avec remboursement intégral si elle n’est pas tenue. Pendant la bêta, signalez une erreur depuis l’espace formateur : la question est corrigée ou retirée.`],
+  ['faq-association', 'Notre association n’a pas de SIREN. Comment faire ?', `Le paiement en ligne demande un numéro SIREN (beaucoup d’associations employeuses ou subventionnées en ont un). Sinon, écrivez-nous à <a href="mailto:octave@vread.fr">octave@vread.fr</a>.`],
+  ['faq-reussite', 'Garantissez-vous la réussite ?', `Non. Personne ne peut la garantir. Le seuil officiel est de 32 bonnes réponses sur 40, en 45 minutes au plus.`],
+];
+
+/** FAQ as <details> (cro.js counts the opened ones) and as FAQPage JSON-LD with the same questions and answers. */
+export const faqHtml = (items) => items.map(([id, q, a]) => `<details id="${id}"><summary>${q}</summary><p>${a}</p></details>`).join('\n');
+export const faqLd = (items) => ({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: items.map(([, q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, '') } })) });
+
+export function homeBody({ u, pilot, annual, delivery, demo }) {
   return `<section class="hero" data-section="hero">
-<p><span class="beta-pill">version bêta — relecture experte en cours</span></p>
+<p><span class="beta-pill">version bêta, pas encore relue par un expert</span></p>
+<div class="hero-grid">
+<div class="hero-text">
 <h1>Examen civique : des examens blancs prêts à imprimer pour vos groupes</h1>
-<p class="lead">Pour les centres d’examen agréés, les écoles de FLE, les associations et les organismes qui préparent des adultes à l’examen civique (carte de séjour pluriannuelle, carte de résident, naturalisation).</p>
-<p>Chaque examen blanc suit le format officiel : 40 questions, dont 28 de connaissance et 12 mises en situation, réparties par thème comme dans l’arrêté du 10 octobre 2025. Le corrigé donne, pour chaque réponse, l’extrait du texte officiel qui la justifie.</p>
+<p class="lead">Pour les formateurs des centres agréés, des écoles de FLE et des associations : un sujet de 40 questions au format officiel, sa grille et son corrigé sourcé, imprimés en un clic.</p>
+<p class="hero-price">Licence par organisme dès <strong><span data-prix-pilote>${pilot}</span> net</strong> (TVA non applicable, art. 293 B du CGI), en pré-commande remboursable si la version relue n’est pas livrée le ${delivery}.</p>
 <div class="btn-row">
-<a class="btn" href="${u('entrainement/')}">Essayer 10 questions gratuitement</a>
-<a class="btn secondary" href="${u('licence/')}">Voir la licence fondateur</a>
+<a class="btn" href="${u('entrainement/')}" data-cta data-sample>Essayer 10 questions gratuitement</a>
+<a class="btn secondary" href="#tarifs" data-cta>Voir les prix et la licence</a>
+</div>
+<p class="small">Aussi gratuits : <a href="${u('exemple-examen/')}" data-sample>un sujet d’exemple à imprimer, avec grille et corrigé</a> · <a href="${u('lecture-b2/exemple/')}" data-sample>une série complète de Lecture B2</a>.</p>
+</div>
+${heroExcerpt(u, demo)}
 </div>
 </section>
+<p>Chaque examen blanc suit le format officiel : 40 questions, dont 28 de connaissance et 12 mises en situation, réparties par thème comme dans l’arrêté du 10 octobre 2025. Il existe un sujet par mention : carte de séjour pluriannuelle, carte de résident, naturalisation. Le corrigé donne, pour chaque réponse, l’extrait du texte officiel qui la justifie.</p>
 ${freeOfficialBlock(u)}
 <section id="ajoute" data-section="ajoute">
 <h2>Ce que la licence ajoute pour un formateur</h2>
 <div class="grid2">
-<div class="card"><h3>Examens blancs à imprimer</h3><p>Un sujet de 40 questions par mention (CSP, CR ou naturalisation) en un clic, avec sa grille de réponses. Le numéro de série permet de réimprimer le même sujet pour un autre groupe. Un nouveau numéro donne un autre tirage.</p></div>
-<div class="card"><h3>Corrigés sourcés</h3><p>Pour chaque question : la bonne lettre, une explication courte et l’extrait officiel avec son lien. Utile quand un apprenant conteste une réponse en séance.</p></div>
-<div class="card"><h3>Correction rapide et fiches de progression</h3><p>Vous tapez les 40 lettres d’un apprenant, l’outil donne la note sur 40, le seuil de 32 et les points faibles par thème. La fiche de groupe s’imprime. Les noms restent sur votre ordinateur.</p></div>
-<div class="card"><h3>Entretien de naturalisation en jeu de rôle</h3><p>${STATS.cards} cartes de questions d’entraînement tirées de la Charte des droits et devoirs du citoyen français, avec relance, chronomètre et liste des points à vérifier. Le formateur joue l’agent. Aucune IA n’intervient.</p></div>
+<div class="card"><h3>Un sujet prêt en une minute</h3><p>Un examen blanc de 40 questions par mention (CSP, CR ou naturalisation), avec sa grille de réponses. Le numéro de série permet de réimprimer le même sujet pour un autre groupe ; un nouveau numéro donne un autre tirage. Banque actuelle : ${STATS.kept} questions vérifiées.</p></div>
+<div class="card"><h3>Une réponse à opposer en séance</h3><p>Pour chaque question : la bonne lettre, une explication courte et l’extrait officiel avec son lien. Quand un apprenant conteste une réponse, vous montrez le texte.</p></div>
+<div class="card"><h3>La correction d’un groupe sans calcul</h3><p>Vous tapez les 40 lettres d’un apprenant : l’outil donne la note sur 40, l’écart au seuil de 32 et les thèmes à retravailler. La fiche de groupe s’imprime. Les noms restent sur votre ordinateur.</p></div>
+<div class="card"><h3>L’entretien de naturalisation en jeu de rôle</h3><p>${STATS.cards} cartes de questions d’entraînement tirées de la Charte des droits et devoirs du citoyen français, avec relance, chronomètre et liste des points à vérifier. Le formateur joue l’agent. Aucune IA n’intervient.</p></div>
 </div>
+<p>Voir avant d’acheter : <a href="${u('exemple-examen/')}" data-sample>sujet d’exemple de 10 questions, grille et corrigé</a>, mis en page comme dans l’espace formateur.</p>
 </section>
 <section id="tarifs" data-section="tarifs">
 <h2>Licence fondateur, en pré-commande</h2>
-${betaBlock(delivery)}
+${betaBlock(delivery, u)}
 <div class="offers">
-<div class="card offer"><h3>Pilote</h3><p class="price"><span data-prix-pilote>${pilot}</span> <s>149 €</s></p><p>3 mois à partir de la livraison de la version relue, jusqu’à 60 apprenants. Accès bêta dès le paiement.</p></div>
-<div class="card offer"><h3>Annuelle</h3><p class="price">${annual} <s>490 €</s></p><p>12 mois à partir de la livraison de la version relue, jusqu’à 300 apprenants. Accès bêta dès le paiement.</p></div>
+<div class="card offer"><h3>Pilote</h3><p class="price"><span data-prix-pilote>${pilot}</span> net</p><p class="small muted">Prix prévu après la relecture : 149 €</p><p>3 mois à partir de la livraison de la version relue, jusqu’à 60 apprenants. Accès bêta dès le paiement.</p></div>
+<div class="card offer"><h3>Annuelle</h3><p class="price">${annual} net</p><p class="small muted">Prix prévu après la relecture : 490 €</p><p>12 mois à partir de la livraison de la version relue, jusqu’à 300 apprenants. Accès bêta dès le paiement.</p></div>
 </div>
-<p class="small muted">Prix nets, TVA non applicable (art. 293 B du CGI). Les prix barrés sont ceux prévus après la relecture. Vente aux organismes immatriculés (SIREN), paiement par carte. Si la version relue n’est pas livrée le ${delivery}, vous pouvez demander le remboursement intégral.</p>
-<div class="btn-row"><a class="btn" href="${u('commander/')}">Pré-commander</a><a class="btn secondary" href="${u('licence/')}">Détail de la licence</a></div>
+<h3>Ce que couvre une licence</h3>
+${licenceScope(u)}
+<p class="small muted">Prix nets, TVA non applicable (art. 293 B du CGI), payés une fois, sans abonnement. Facture envoyée avec le code d’accès. Vente aux organismes immatriculés (SIREN), paiement par carte.</p>
+<p class="guarantee">Remboursement intégral sur simple e-mail si la version relue n’est pas livrée le ${delivery} (article 6 des <a href="${u('cgv-pro/')}">CGV</a>).</p>
+<div class="btn-row"><a class="btn" href="${u('commander/')}" data-cta>Pré-commander une licence</a><a class="btn secondary" href="${u('licence/')}">Détail de la licence</a></div>
 </section>
 <section id="lecture-b2" data-section="lecture-b2">
-<h2>Nouveau : le module Lecture B2</h2>
+<h2>Le module Lecture B2</h2>
 <p>Depuis le 1er janvier 2026, la naturalisation exige le niveau B2 en français, à l’oral et à l’écrit. Le module Lecture B2 ajoute des séries de compréhension écrite à imprimer : textes de Renan, Hugo, Jaurès, Jules Ferry, Déclaration de 1789, loi de 1905. Il n’atteste aucun niveau : seuls un diplôme ou un test officiels le font. <a href="${u('lecture-b2/')}">Voir le module et la série gratuite</a>.</p>
 </section>
 <section id="faq" data-section="faq">
 <h2>Questions fréquentes</h2>
-<details id="faq-officiel"><summary>Est-ce un site officiel ?</summary><p>Non. Civiclasse est un service privé de READ FRANCE SAS. Les seules sources officielles sont le ministère de l’Intérieur (formation-civique.interieur.gouv.fr), service-public.gouv.fr et Légifrance. Nous ne vendons ni inscription ni attestation : on s’inscrit à l’examen dans un centre agréé par la CCI Paris Île-de-France ou France Éducation International.</p></details>
-<details id="faq-candidat"><summary>Je suis candidat : dois-je acheter la licence ?</summary><p>Non. Les ressources officielles suffisent et elles sont gratuites (liste ci-dessus). La licence sert aux formateurs qui préparent des groupes.</p></details>
-<details id="faq-questions"><summary>D’où viennent les questions ?</summary><p>Les questions de connaissance reprennent mot pour mot les listes officielles publiées par le ministère. Ces listes ne donnent ni les réponses proposées ni la bonne réponse : nous les avons rédigées. Les mises en situation officielles ne sont pas publiées : les nôtres sont des exercices du même type, rédigés par nous et rattachés à une fiche officielle. Le détail est sur la page <a href="${u('sources/')}">Sources</a>.</p></details>
-<details id="faq-beta"><summary>Que veut dire « version bêta » ?</summary><p>Chaque bonne réponse a été comparée à un extrait de texte officiel, mais aucun expert n’a encore relu l’ensemble. Pendant la bêta, signalez une erreur depuis l’espace formateur : la question est corrigée ou retirée.</p></details>
-<details id="faq-association"><summary>Notre association n’a pas de SIREN. Comment faire ?</summary><p>Le paiement en ligne demande un numéro SIREN (beaucoup d’associations employeuses ou subventionnées en ont un). Sinon, écrivez-nous à <a href="mailto:octave@vread.fr">octave@vread.fr</a>.</p></details>
-<details id="faq-reussite"><summary>Garantissez-vous la réussite ?</summary><p>Non. Personne ne peut la garantir. Le seuil officiel est de 32 bonnes réponses sur 40, en 45 minutes au plus.</p></details>
-</section>`;
+${faqHtml(HOME_FAQ(u, delivery))}
+</section>
+<div class="btn-row"><a class="btn" href="${u('commander/')}" data-cta>Pré-commander une licence</a><a class="btn secondary" href="${u('exemple-examen/')}" data-sample>Voir le sujet d’exemple</a></div>`;
 }
 
 export function licenceBody({ u, pilot, annual, delivery, b2a, b2solo }) {
   return `<h1>Licence fondateur Civiclasse</h1>
-<p class="lead">Une licence par organisme, payée une fois, pour toute l’équipe pédagogique. Pas de compte par apprenant, pas d’abonnement.</p>
-${betaBlock(delivery)}
+<p class="lead">Une licence par organisme, payée une fois, pour toute l’équipe pédagogique. Pas de compte par apprenant, pas d’abonnement. Pilote <span data-prix-pilote>${pilot}</span> net, Annuelle ${annual} net, TVA non applicable (art. 293 B du CGI).</p>
+${betaBlock(delivery, u)}
 <section id="ajoute" data-section="ajoute">
 <h2>Ce que vous payez, et ce qui reste gratuit</h2>
 <div class="table-wrap"><table>
@@ -113,12 +174,15 @@ ${betaBlock(delivery)}
 <section id="formules" data-section="formules">
 <h2>Formules</h2>
 <div class="offers">
-<div class="card offer"><h3>Pilote</h3><p class="price"><span data-prix-pilote>${pilot}</span> <s>149 €</s></p><ul><li>Accès bêta dès le paiement</li><li>Version relue livrée au plus tard le ${delivery}</li><li>3 mois de licence à partir de cette livraison</li><li>Jusqu’à 60 apprenants préparés avec les supports</li></ul></div>
-<div class="card offer"><h3>Annuelle</h3><p class="price">${annual} <s>490 €</s></p><ul><li>Accès bêta dès le paiement</li><li>Version relue livrée au plus tard le ${delivery}</li><li>12 mois de licence à partir de cette livraison</li><li>Jusqu’à 300 apprenants préparés avec les supports</li></ul></div>
+<div class="card offer"><h3>Pilote</h3><p class="price"><span data-prix-pilote>${pilot}</span></p><p class="small muted">Prix prévu après la relecture : 149 €</p><ul><li>Accès bêta dès le paiement</li><li>Version relue : date limite le ${delivery}</li><li>3 mois de licence à partir de cette livraison</li><li>Jusqu’à 60 apprenants préparés avec les supports</li></ul></div>
+<div class="card offer"><h3>Annuelle</h3><p class="price">${annual}</p><p class="small muted">Prix prévu après la relecture : 490 €</p><ul><li>Accès bêta dès le paiement</li><li>Version relue : date limite le ${delivery}</li><li>12 mois de licence à partir de cette livraison</li><li>Jusqu’à 300 apprenants préparés avec les supports</li></ul></div>
 <div class="card offer"><h3>Option Lecture B2</h3><p class="price"><span data-prix-b2>+${b2a}</span></p><ul><li>Séries de compréhension écrite pour les candidats à la naturalisation</li><li>Ajoutée à la Pilote ou à l’Annuelle, même durée</li><li>12 séries relues au plus tard le ${delivery}</li><li>Aussi vendue seule : ${b2solo}</li></ul><p class="small"><a href="${u('lecture-b2/')}">Voir le module</a></p></div>
 </div>
-<p class="small muted">Prix nets, TVA non applicable (art. 293 B du CGI). Prix barrés : prix prévus après la relecture. Facture envoyée avec le code d’accès. Si la version relue n’est pas livrée le ${delivery}, vous pouvez demander le remboursement intégral (article 6 des <a href="${u('cgv-pro/')}">CGV</a>).</p>
-<div class="btn-row"><a class="btn" href="${u('commander/')}">Pré-commander</a></div>
+<p class="small muted">Prix nets, TVA non applicable (art. 293 B du CGI), payés une fois, sans abonnement. Facture envoyée avec le code d’accès.</p>
+<h3 id="couvre">Ce que couvre une licence</h3>
+${licenceScope(u)}
+<p class="guarantee">${deliveryLine(u, delivery)}</p>
+<div class="btn-row"><a class="btn" href="${u('commander/')}" data-cta>Pré-commander une licence</a><a class="btn secondary" href="${u('exemple-examen/')}" data-sample>Voir le sujet d’exemple</a></div>
 </section>
 <section id="comment" data-section="comment">
 <h2>Comment ça se passe</h2>
@@ -126,7 +190,7 @@ ${betaBlock(delivery)}
 <li>Vous payez par carte sur la page de commande (raison sociale et SIREN demandés).</li>
 <li>Vous recevez par e-mail un code d’accès CIVI-XXXX-XXXX-XXXX-XXXX et la facture.</li>
 <li>Vous ouvrez l’<a href="${u('espace-formateur/')}">espace formateur</a> avec ce code, depuis n’importe quel ordinateur de l’équipe.</li>
-<li>Le jour de la livraison de la version relue, le même code donne accès aux questions relues. Nous vous écrivons à ce moment-là.</li>
+<li>Le jour de la livraison de la version relue, le même code donne accès aux questions relues. Nous vous écrivons à ce moment-là, et la période de licence commence.</li>
 </ol>
 </section>
 ${freeOfficialBlock(u)}`;
@@ -189,9 +253,10 @@ ${cards}
 export function demoBody({ u }) {
   return `<h1>Test gratuit : 10 questions d’examen civique</h1>
 <p class="lead">8 questions de connaissance des listes officielles et 2 mises en situation. Après chaque réponse, vous voyez la correction et l’extrait officiel qui la justifie.</p>
-<p class="small"><span class="beta-pill">version bêta — relecture experte en cours</span> Au vrai examen : 40 questions, 45 minutes, 32 bonnes réponses pour réussir.</p>
+<p class="small"><span class="beta-pill">version bêta, pas encore relue par un expert</span> Au vrai examen : 40 questions, 45 minutes, 32 bonnes réponses pour réussir.</p>
 <div id="quiz" class="card" aria-live="polite"><noscript><p>Ce test a besoin de JavaScript.</p></noscript><p class="muted">Chargement…</p></div>
 <p class="small muted">Rien n’est envoyé : vos réponses restent dans votre navigateur.</p>
+<p>Formateur ? Les mêmes 10 questions existent en <a href="${u('exemple-examen/')}" data-sample>sujet imprimable avec grille et corrigé</a>, mis en page comme les examens blancs de 40 questions de la <a href="${u('licence/')}">licence</a>.</p>
 ${freeOfficialBlock(u)}`;
 }
 
@@ -207,7 +272,7 @@ export function spaceBody({ u, delivery }) {
 </div>
 <div id="space" hidden>
 <p id="licence-line" class="card"></p>
-<div class="callout callout-warn"><p><span class="beta-pill">version bêta — relecture experte en cours</span> Version relue promise au plus tard le ${delivery}. Chaque corrigé cite l’extrait officiel. Une erreur ? Le bouton « Signaler » sous chaque question ouvre un e-mail prérempli.</p></div>
+<div class="callout callout-warn"><p><span class="beta-pill">version bêta, pas encore relue par un expert</span> Version relue : date limite le ${delivery} (calendrier de la relecture pas encore confirmé). Chaque corrigé cite l’extrait officiel. Une erreur ? Le bouton « Signaler » sous chaque question ouvre un e-mail prérempli.</p></div>
 <div class="tabs" role="tablist">
 <button role="tab" aria-selected="true" aria-controls="p-exam" id="t-exam">Examens blancs</button>
 <button role="tab" aria-selected="false" aria-controls="p-corr" id="t-corr">Correction et progression</button>
@@ -287,13 +352,14 @@ export function sourcesBody({ u }) {
 <tbody>
 ${B2_SOURCES.map((s) => `<tr><td>${s.title} (${s.year})</td><td>${s.author}</td><td>${s.status}</td><td>${s.links}</td></tr>`).join('\n')}
 </tbody></table></div>
-<p>Les questions, le vocabulaire et les corrigés sont rédigés par READ FRANCE, hors ligne, sans outil d’IA au moment de l’usage. Un script vérifie pour chaque question que la citation du corrigé figure mot pour mot dans le texte, qu’il y a 4 réponses distinctes et une seule bonne, et qu’aucune question n’est en double. Aucun examinateur n’a encore relu les séries.</p>
+<p>Les questions, le vocabulaire et les corrigés sont rédigés hors ligne par Octave, l’agent IA de READ FRANCE ; aucune IA ne tourne quand vous utilisez le site. Un script vérifie pour chaque question que la citation du corrigé figure mot pour mot dans le texte, qu’il y a 4 réponses distinctes et une seule bonne, et qu’aucune question n’est en double.</p>
+<p>Le 16 octobre 2026, les 60 questions des 6 séries sont passées par les contrôles du moteur de lecture de READ FRANCE (repris du travail de Vread de 2025) : citation retrouvée dans son paragraphe, pas de question fermée en oui/non, propositions distinctes, et un test « à froid » : un lecteur qui n’a qu’une présentation de 110 mots de l’extrait ne doit pas pouvoir répondre. 38 questions ont échoué à l’un de ces contrôles et ont été réécrites ; les 60 passent aujourd’hui. Aucun examinateur n’a encore relu les séries.</p>
 <h2>Comment la banque est construite</h2>
 <ol>
-<li>Les questions de connaissance sont copiées des listes officielles. Les listes ne donnent ni les 4 propositions ni la bonne réponse : READ FRANCE les a rédigées, avec l’aide d’un outil d’IA, en octobre 2026.</li>
+<li>Les questions de connaissance sont copiées des listes officielles. Les listes ne donnent ni les 4 propositions ni la bonne réponse : Octave, l’agent IA de READ FRANCE, les a rédigées en octobre 2026 ; les fondateurs de READ FRANCE publient le site (<a href="${ABOUT}">qui fait ce site, et comment</a>).</li>
 <li>Les mises en situation officielles ne sont pas publiées. Les nôtres sont rédigées par READ FRANCE et rattachées à une fiche officielle.</li>
 <li>Chaque question a ensuite été comparée à un extrait de texte officiel. Un script vérifie que l’extrait cité figure mot pour mot dans la source. Une question est retirée si l’extrait manque, si deux propositions peuvent être justes, si deux sources officielles se contredisent ou si un détail de la réponse n’est pas dans la source. Résultat : ${STATS.kept} questions gardées, ${STATS.removed} retirées sur ${STATS.total}.</li>
-<li>Aucun expert n’a encore relu la banque : c’est la version bêta. La relecture experte est en cours.</li>
+<li>Aucun expert n’a encore relu la banque : c’est la version bêta. Le calendrier de la relecture par un expert n’est pas encore confirmé ; la date limite de nos CGV est indiquée sur la page de la licence.</li>
 </ol>
 <p>Aucune question ne vient d’un site concurrent ou d’un manuel. Les textes de l’extrait sont ceux de la source, parfois avec une coquille de numérisation corrigée.</p>
 <p>Code du site : licence MIT. Textes, questions et cartes rédigés par READ FRANCE : tous droits réservés.</p>`;
@@ -328,12 +394,13 @@ export function privacyBody({ contact }) {
 <li>Aucun cookie, aucun identifiant, aucune adresse IP conservée, aucune donnée personnelle, aucun suivi d’un site à l’autre. Rien n’est partagé, vendu ou recoupé.</li>
 <li>Test A/B : selon le jour, le prix fondateur de la formule Pilote affiché est 99 € ou 129 €. Le choix dépend de la date (aucun stockage) et n’est rattaché à personne. Le prix payé est toujours celui affiché sur la page de commande.</li>
 <li>Second test A/B, sur le prix de l’option Lecture B2 (+69 € ou +99 €) : la variante est tirée au hasard une fois par onglet et gardée dans le stockage de session de l’onglet (sessionStorage) jusqu’à sa fermeture. Ce n’est pas un cookie, rien n’identifie le visiteur et rien n’est envoyé d’autre que le compteur agrégé de la variante.</li>
+<li>Troisième test A/B, sur la page d’accueil : le haut de page montre ou non un extrait du sujet d’exemple imprimable. La variante est tirée au hasard une fois par onglet, gardée de la même façon dans le stockage de session de l’onglet, et seuls des totaux par variante sont comptés (pages vues, premier clic sur un bouton, ouverture d’un exemple gratuit). Le même test tourne sur les autres sites de lecture de READ FRANCE ; leurs totaux sont additionnés, sans aucun suivi d’un site à l’autre.</li>
 <li>Opposition : le réglage « Do Not Track » ou « Global Privacy Control » du navigateur arrête toute mesure.</li>
 <li>Cette mesure, agrégée et limitée aux statistiques propres au site, entre dans l’exemption de consentement prévue pour la mesure d’audience (article 82 de la loi Informatique et Libertés, lignes directrices et recommandation de la CNIL du 17 septembre 2020) : il n’y a donc pas de bandeau de consentement.</li>
 </ul>
 <h2>Clients (commande d’une licence)</h2>
 <p>READ FRANCE SAS, responsable de traitement, utilise l’adresse e-mail, la raison sociale, le SIREN et l’adresse de facturation donnés à la commande pour exécuter la commande, envoyer le code d’accès et la facture, tenir sa comptabilité et prévenir la fraude (base légale : contrat et obligations légales). Les données de carte sont traitées par Stripe, jamais par nous. Prestataires : Stripe (paiement), Google (e-mails, registre des commandes et des factures). Durées : pièces comptables 10 ans, autres données de commande 5 ans. Vos droits (accès, rectification, effacement, limitation, opposition, portabilité) s’exercent à <a href="mailto:${contact}">${contact}</a> ; réclamation possible auprès de la <a href="https://www.cnil.fr/fr/plaintes" rel="noopener">CNIL</a>.</p>
-<p class="hint">Mise à jour : 14 octobre 2026.</p>`;
+<p class="hint">Mise à jour : 18 octobre 2026.</p>`;
 }
 
 export function cgvBody({ u, pilot99, pilot129, annual, delivery, termsVersion, contact, b2a, b2b, b2solo }) {
@@ -408,15 +475,27 @@ ${cat.sets.map((s) => `<tr><td>${s.order}${s.free ? ' (gratuite)' : ''}</td><td>
 </tbody></table></div>`;
 const esc2 = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+export const B2_FAQ = (u, delivery) => [
+  ['faq-b2-preuve', 'Un candidat qui réussit ces séries a-t-il le niveau B2 ?', 'On ne peut pas le dire. Seuls un diplôme ou une attestation officiels (TCF ou TEF de moins de 2 ans, DELF B2, DALF, brevet…) prouvent le niveau. Nos séries servent à s’entraîner à lire.'],
+  ['faq-b2-tcf', 'Est-ce un entraînement au TCF ou au TEF ?', 'Non. Les épreuves de ces tests appartiennent à leurs éditeurs (France Éducation International, CCI Paris Île-de-France) et nous ne les reproduisons pas. Les questions de nos séries portent sur un texte long et argumenté, avec une seule bonne réponse, comme beaucoup d’exercices de compréhension écrite de niveau B2.'],
+  ['faq-b2-gratuit', 'Existe-t-il des ressources gratuites ?', `Oui. France Éducation International et la CCI Paris Île-de-France présentent leurs tests sur leurs sites ; la fiche ${ext(B2_OFFICIAL.f11926, 'F11926')} liste les justificatifs. Notre série sur Renan est gratuite et complète.`],
+  ['faq-b2-licence', 'Que couvre l’achat du module ?', `Votre organisme et toute son équipe pédagogique, avec un seul code d’accès. Vous imprimez les séries pour vos propres apprenants. En option, le module suit la licence (Pilote : 3 mois, 60 apprenants ; Annuelle : 12 mois, 300 apprenants) ; seul, il vaut 12 mois et 300 apprenants. La durée court à partir de la livraison de la version relue. Le code ne se donne pas aux apprenants (article 8 des <a href="${u('cgv-pro/')}">CGV</a>).`],
+  ['faq-b2-maj', 'Les nouvelles séries sont-elles comprises ?', `Oui. Les séries bêta sont disponibles dès le paiement ; les séries suivantes et la version relue s’ajoutent avec le même code, sans supplément. Date limite des 12 séries relues : ${delivery}, avec remboursement du module si elle n’est pas tenue.`],
+  ['faq-b2-facture', 'Facture, devis, bon de commande ?', 'La facture acquittée part par e-mail avec le code d’accès (TVA non applicable, art. 293 B du CGI). Le paiement en ligne se fait par carte uniquement. Pour un devis, un bon de commande ou un virement, écrivez à <a href="mailto:octave@vread.fr">octave@vread.fr</a> : cette voie n’est pas encore ouverte en ligne.'],
+  ['faq-b2-niveau', 'Comment le niveau des textes a-t-il été choisi ?', 'D’après les descripteurs B2 du CECRL en lecture : textes de 450 à 600 mots, argumentés, sur des sujets de société, avec des questions de repérage, de déduction, de vocabulaire et d’intention. Aucun examinateur ne les a encore relus : c’est la bêta.'],
+  ['faq-b2-apprenants', 'Les apprenants doivent-ils créer un compte ?', 'Non. Le formateur imprime les séries. Aucune donnée d’apprenant n’est collectée.'],
+];
+
 export function lectureB2Body({ u, delivery, b2a, b2solo, b2cat }) {
   const n = b2cat.sets.length;
   return `<section class="hero" data-section="hero">
-<p><span class="beta-pill">version bêta — relecture experte en cours</span></p>
+<p><span class="beta-pill">version bêta, pas encore relue par un expert</span></p>
 <h1>Lecture B2 : des textes sur la France à lire et à comprendre, prêts à imprimer</h1>
 <p class="lead">Un module de Civiclasse pour les formateurs qui préparent des adultes à la naturalisation. Chaque série réunit un texte de 450 à 600 mots, 10 questions de compréhension, un encadré de vocabulaire et un corrigé qui cite, pour chaque réponse, le passage du texte.</p>
+<p class="hero-price">En option d’une licence : <strong><span data-prix-b2>+${b2a}</span> net</strong> ; seul : <strong>${b2solo} net</strong> (TVA non applicable, art. 293 B du CGI). ${b2cat.sets.length} séries bêta à imprimer dès le paiement.</p>
 <p>Les textes sont des œuvres du domaine public (Renan, Hugo, Jaurès, Jules Ferry) ou des textes officiels (Déclaration de 1789, loi de 1905, fiche de service-public.gouv.fr). En une séance, le groupe s’entraîne à lire un texte argumenté et révise les repères de l’examen civique.</p>
 <div class="btn-row">
-<a class="btn" href="${u('lecture-b2/exemple/')}" data-cta>Voir la série gratuite (Renan)</a>
+<a class="btn" href="${u('lecture-b2/exemple/')}" data-cta data-sample>Voir la série gratuite (Renan)</a>
 <a class="btn secondary" href="${u('commander/?module=lecture-b2')}">Ajouter le module à une licence</a>
 </div>
 </section>
@@ -432,7 +511,7 @@ ${b2RuleBlock()}
 </div>
 <h3>Les ${n} séries disponibles aujourd’hui</h3>
 ${b2SetsTable(b2cat)}
-<p class="small muted">Version bêta : questions rédigées par READ FRANCE et contrôlées par programme, pas encore relues par un examinateur. Le module complet, 12 séries relues, est promis au plus tard le ${delivery}.</p>
+<p class="small muted">Version bêta : questions rédigées par Octave, l’agent IA de READ FRANCE, contrôlées par programme et par le moteur de lecture de READ FRANCE (une question à laquelle on répond avec un simple résumé du texte est réécrite : 38 sur 60 l’ont été), pas encore relues par un examinateur. Le module complet compte 12 séries relues : date limite le ${delivery} (article 6 des <a href="${u('cgv-pro/')}">CGV</a>) ; le calendrier de la relecture n’est pas encore confirmé. <a href="${u('sources/')}#lecture-b2">Méthode et sources</a> · ${aboutLink()}.</p>
 </section>
 <section id="prix-b2" data-section="prix-b2">
 <h2>Prix</h2>
@@ -440,25 +519,61 @@ ${b2SetsTable(b2cat)}
 <div class="card offer"><h3>En option d’une licence</h3><p class="price"><span data-prix-b2>+${b2a}</span></p><p>Ajouté à la licence Pilote ou Annuelle, pour la même durée et le même nombre d’apprenants.</p></div>
 <div class="card offer"><h3>Seul, sans licence</h3><p class="price">${b2solo}</p><p>12 mois à partir de la livraison de la version relue, jusqu’à 300 apprenants. Pour un organisme qui ne prépare pas l’examen civique.</p></div>
 </div>
-<p class="small muted">Prix nets, TVA non applicable (art. 293 B du CGI). Pré-commande : les ${n} séries bêta sont disponibles dès le paiement ; si les 12 séries relues ne sont pas livrées le ${delivery}, vous pouvez demander le remboursement (article 6 des <a href="${u('cgv-pro/')}">CGV</a>). Vente aux organismes immatriculés (SIREN).</p>
-<div class="btn-row"><a class="btn" href="${u('commander/?module=lecture-b2')}">Pré-commander avec une licence</a><a class="btn secondary" href="${u('commander/?module=lecture-b2-seul')}">Pré-commander le module seul</a></div>
+<p class="small muted">Prix nets, TVA non applicable (art. 293 B du CGI), payés une fois, sans abonnement. Facture envoyée avec le code d’accès. Vente aux organismes immatriculés (SIREN). La licence couvre un organisme et toute son équipe pédagogique, qui imprime les séries pour ses propres apprenants ; le code ne se donne pas aux apprenants (article 8 des CGV).</p>
+<p class="guarantee">Pré-commande : les ${n} séries bêta sont disponibles dès le paiement. Si les 12 séries relues ne sont pas livrées le ${delivery}, vous obtenez le remboursement du module sur simple e-mail (article 6 des <a href="${u('cgv-pro/')}">CGV</a>).</p>
+<div class="btn-row"><a class="btn" href="${u('commander/?module=lecture-b2')}" data-cta>Pré-commander avec une licence</a><a class="btn secondary" href="${u('commander/?module=lecture-b2-seul')}" data-cta>Pré-commander le module seul</a></div>
 </section>
 <section id="faq-b2" data-section="faq">
 <h2>Questions fréquentes</h2>
-<details id="faq-b2-preuve"><summary>Un candidat qui réussit ces séries a-t-il le niveau B2 ?</summary><p>On ne peut pas le dire. Seuls un diplôme ou une attestation officiels (TCF ou TEF de moins de 2 ans, DELF B2, DALF, brevet…) prouvent le niveau. Nos séries servent à s’entraîner à lire.</p></details>
-<details id="faq-b2-tcf"><summary>Est-ce un entraînement au TCF ou au TEF ?</summary><p>Non. Les épreuves de ces tests appartiennent à leurs éditeurs (France Éducation International, CCI Paris Île-de-France) et nous ne les reproduisons pas. Les questions de nos séries portent sur un texte long et argumenté, avec une seule bonne réponse, comme beaucoup d’exercices de compréhension écrite de niveau B2.</p></details>
-<details id="faq-b2-gratuit"><summary>Existe-t-il des ressources gratuites ?</summary><p>Oui. France Éducation International et la CCI Paris Île-de-France présentent leurs tests sur leurs sites ; la fiche ${ext(B2_OFFICIAL.f11926, 'F11926')} liste les justificatifs. Notre série sur Renan est gratuite et complète.</p></details>
-<details id="faq-b2-niveau"><summary>Comment le niveau des textes a-t-il été choisi ?</summary><p>D’après les descripteurs B2 du CECRL en lecture : textes de 450 à 600 mots, argumentés, sur des sujets de société, avec des questions de repérage, de déduction, de vocabulaire et d’intention. Aucun examinateur ne les a encore relus : c’est la bêta.</p></details>
-<details id="faq-b2-apprenants"><summary>Les apprenants doivent-ils créer un compte ?</summary><p>Non. Le formateur imprime les séries. Aucune donnée d’apprenant n’est collectée.</p></details>
+${faqHtml(B2_FAQ(u, delivery))}
 </section>`;
 }
 
 export function b2ExempleBody({ u, sheet, key, set }) {
   return `<h1>Série gratuite « ${esc2(set.title)} » d’Ernest Renan</h1>
 <p class="lead">La série complète, telle qu’elle s’imprime depuis l’espace formateur : texte, vocabulaire, 10 questions, grille de réponses et corrigé.</p>
-<p class="small"><span class="beta-pill">version bêta — relecture experte en cours</span> Libre d’usage en classe. Le texte de Renan est dans le domaine public ; questions et corrigé © READ FRANCE SAS.</p>
-<div class="btn-row no-print"><button type="button" class="btn" data-print-b2="sheet">Imprimer la série</button><button type="button" class="btn secondary" data-print-b2="key">Imprimer le corrigé</button><a class="btn secondary" href="${u('lecture-b2/')}">Le module Lecture B2</a></div>
+<p class="small"><span class="beta-pill">version bêta, pas encore relue par un expert</span> Libre d’usage en classe. Le texte de Renan est dans le domaine public ; questions et corrigé © READ FRANCE SAS.</p>
+<div class="btn-row no-print"><button type="button" class="btn" data-print-b2="sheet" data-sample>Imprimer la série</button><button type="button" class="btn secondary" data-print-b2="key" data-sample>Imprimer le corrigé</button><a class="btn secondary" href="${u('lecture-b2/')}">Le module Lecture B2</a></div>
 ${sheet}
 ${key}
 <div class="no-print">${b2RuleBlock()}</div>`;
+}
+
+/* ------------------------------------------------------------------ free printable sample (exam sheet + key) */
+
+const THEMES = { principes: 'Principes et valeurs de la République', institutions: 'Système institutionnel et politique', droits: 'Droits et devoirs', histoire: 'Histoire, géographie et culture', societe: 'Vivre dans la société française' };
+
+/** The 10 free questions laid out like an exam sheet of the trainer area: sheet, answer grid, key with sources. */
+export function examSampleBody({ u, demo, pilot }) {
+  const qs = demo.items;
+  const L4 = ['A', 'B', 'C', 'D'];
+  const e = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return `<h1>Sujet d’exemple à imprimer : 10 questions d’examen civique, grille et corrigé</h1>
+<p class="lead">Le sujet, la grille de réponses et le corrigé sourcé tels que l’espace formateur les imprime. Un examen blanc de la licence compte 40 questions (28 de connaissance, 12 mises en situation) ; celui-ci en reprend 10, les mêmes que le <a href="${u('entrainement/')}">test gratuit en ligne</a>.</p>
+<p class="small"><span class="beta-pill">version bêta, pas encore relue par un expert</span> Libre d’usage avec vos apprenants. Questions de connaissance : listes officielles du ministère ; propositions, mises en situation et explications © READ FRANCE SAS.</p>
+<div class="btn-row no-print"><button type="button" class="btn" data-print-exam="exam" data-sample>Imprimer le sujet et la grille</button><button type="button" class="btn secondary" data-print-exam="key" data-sample>Imprimer le corrigé</button><a class="btn secondary" href="${u('licence/')}">La licence (examens de 40 questions)</a></div>
+<div class="sheet sheet-exam">
+<h2>Examen blanc – examen civique (sujet d’exemple)</h2>
+<p>Nom : ______________________ &nbsp; Prénom : ______________________</p>
+<p class="small">${qs.length} questions, une seule bonne réponse par question. Entourez la lettre choisie sur la grille. Au vrai examen : 40 questions, 45 minutes au plus, 32 bonnes réponses pour réussir. Sujet Civiclasse (version bêta), sans valeur officielle.</p>
+<ol class="exam">
+${qs.map(sheetQuestion).join('\n')}
+</ol>
+<div class="print-break"></div>
+<h2>Grille de réponses</h2>
+<p>Nom : ______________________ &nbsp; Note : ____ / ${qs.length}</p>
+<div class="grid-answers">${qs.map((q, i) => `<span>${String(i + 1).padStart(2, '0')}  A  B  C  D</span>`).join('')}</div>
+</div>
+<div class="sheet sheet-key">
+<h2>Corrigé (réservé au formateur)</h2>
+<p class="grid-answers">${qs.map((q, i) => `<span>${String(i + 1).padStart(2, '0')} : ${L4[q.answer]}</span>`).join('')}</p>
+<div class="table-wrap"><table><thead><tr><th>N°</th><th>Réponse</th><th>Thème</th><th>Explication et source officielle</th></tr></thead><tbody>
+${qs.map((q, i) => `<tr><td>${i + 1}</td><td>${L4[q.answer]}</td><td>${e(THEMES[q.theme])}${q.kind === 'situation' ? ' (mise en situation)' : ''}</td><td>${e(q.explanation)}<br><span class="small">« ${e(q.evidence.quote)} » <a href="${e(q.evidence.url)}" rel="noopener">${e(q.evidence.label)}</a></span></td></tr>`).join('\n')}
+</tbody></table></div>
+</div>
+<section class="no-print" id="suite" data-section="suite">
+<h2>Avec la licence</h2>
+<p>Un sujet de 40 questions par mention (CSP, CR, naturalisation), tiré d’une banque de ${STATS.kept} questions vérifiées, réimprimable avec son numéro de série ; la correction rapide d’un groupe ; ${STATS.cards} cartes pour l’entretien de naturalisation. Licence par organisme dès <span data-prix-pilote>${pilot}</span> net, TVA non applicable (art. 293 B du CGI), en pré-commande remboursable.</p>
+<div class="btn-row"><a class="btn" href="${u('commander/')}" data-cta>Pré-commander une licence</a><a class="btn secondary" href="${u('licence/')}">Détail de la licence</a></div>
+</section>`;
 }
